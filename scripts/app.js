@@ -21,4 +21,3 @@ var christmasApp;
         });
     });
 })(christmasApp || (christmasApp = {}));
-//# sourceMappingURL=app.js.map

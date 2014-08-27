@@ -10,8 +10,14 @@
   "license": "ISC",
   "devDependencies": {
     "gulp": "^3.8.7",
-    "gulp-connect": "^2.0.6",
+    "gulp-express": "0.0.9",
     "gulp-tsc": "^0.9.2",
     "gulp-util": "^3.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.6.5",
+    "express": "^4.8.5",
+    "express-jwt": "^0.3.1",
+    "jsonwebtoken": "^1.1.0"
   }
 }
