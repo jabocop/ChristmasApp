@@ -1,2 +1,4 @@
 node_modules
 FrontEnd/node_modules
+obj
+*.suo

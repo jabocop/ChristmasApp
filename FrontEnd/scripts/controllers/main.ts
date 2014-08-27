@@ -1,13 +1,11 @@
-module mainController {
-	'use strict';
-
-	export class MainCtrl {
-		constructor(private $scope: any) {			
-			$scope.awesomeThings = [
-      			'HTML5 Boilerplate',
-      			'AngularJS',
-      			'Karma'
-    		];
-		}
-	}
+class MainCtrl {
+    private $scope : any;
+    constructor($scope: any) {
+        this.$scope = $scope;
+        $scope.awesomeThings = [
+      		'HTML5 Boilerplate',
+      		'AngularJS',
+      		'Karma'
+    	];
+    }
 }

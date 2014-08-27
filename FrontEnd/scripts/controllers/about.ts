@@ -1,13 +1,11 @@
-module aboutController {
-	'use strict';
-
-	export class AboutCtrl {
-		constructor(private $scope: any) {			
-			$scope.awesomeThings = [
-      			'HTML5 Boilerplate',
-      			'AngularJS',
-      			'Karma'
-    		];
-		}
-	}
+class AboutCtrl {
+    private $scope: any;
+    constructor($scope: any) {
+        this.$scope = $scope;
+        $scope.awesomeThings = [
+            'HTML5 Boilerplate',
+            'AngularJS',
+            'Karma'
+        ];
+    }
 }
