@@ -164,7 +164,9 @@
     <Compile Include="FrontEnd\bower_components\jquery\src\sizzle\dist\sizzle.min.js" />
     <Compile Include="FrontEnd\bower_components\jquery\src\traversing\var\rneedsContext.js" />
     <TypeScriptCompile Include="FrontEnd\scripts\controllers\about.ts" />
+    <TypeScriptCompile Include="FrontEnd\scripts\controllers\BaseController.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\controllers\main.ts" />
+    <TypeScriptCompile Include="FrontEnd\scripts\factories\loginFactory.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\typings\angularjs\angular-route.d.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\typings\jquery\jquery.d.ts" />
