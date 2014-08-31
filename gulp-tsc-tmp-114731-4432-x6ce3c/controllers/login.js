@@ -41,6 +41,9 @@ var LoginCtrl = (function (_super) {
         $scope.message = '';
         $scope.events = this;
         $scope.loginFactory = loginFactory;
+        $scope.$watch(this.loginFactory.userName, function () {
+            alert("LISTENING");
+        });
     }
     LoginCtrl.prototype.submit = function () {
         this.loginFactory.Login(this.$scope.user);
@@ -73,4 +76,3 @@ var LoginCtrl = (function (_super) {
     };
     return LoginCtrl;
 })(BaseController);
-//# sourceMappingURL=login.js.map

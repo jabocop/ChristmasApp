@@ -3,10 +3,11 @@
     <input ng-model="user.password" type="password" name="pass" placeholder="Password" />
     <input type="submit" value="Login" />
 
-      <div ng-show="isAuthenticated">
+      <div ng-show="loginFactory.isAuthenticated">
         <a ng-click="events.callRestricted()" href="">Shh, this is private!</a>
         <br>
         <div>{{message}}</div>
+          <div>{{loginFactory.userName}}</div>
         <a ng-click="logout()" href="">Logout</a>
       </div>
 

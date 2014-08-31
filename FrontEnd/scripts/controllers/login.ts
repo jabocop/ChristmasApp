@@ -13,6 +13,7 @@ interface ILoginScope extends IBaseScope {
     welcome: string;
     isAuthenticated: boolean;
     events: ILoginEvents;
+    loginFactory : loginFactory;
 }
 
 interface IAuthorizeRetVal {
@@ -43,20 +44,24 @@ class LoginCtrl extends BaseController {
     private $http: ng.IHttpService;
     private $window: ng.IWindowService;
     private $scope: ILoginScope;
-    constructor($scope: ILoginScope, $http: ng.IHttpService, $window: ng.IWindowService) {
+    private loginFactory : loginFactory;
+    constructor(loginFactory : loginFactory, $scope: ILoginScope, $http: ng.IHttpService, $window: ng.IWindowService) {
         super($scope);
         this.$scope = $scope;
         this.$http = $http;
         this.$window = $window;
+        this.loginFactory = loginFactory;
         $scope.user = { username: 'john.doe', password: 'foobar' };  
         $scope.message = '';  
         $scope.events = this;
+        $scope.loginFactory = loginFactory;
     }
 
 
 
     public submit(): void {
-        this.$http
+        this.loginFactory.Login(this.$scope.user);
+        /*this.$http
             .post<IAuthorizeRetVal>('/authenticate', this.$scope.user)
             .success((data, status, headers, config) =>  {
                 this.$window.sessionStorage.setItem("token",data.token);
@@ -72,7 +77,7 @@ class LoginCtrl extends BaseController {
 
                 // Handle login errors here
                 this.$scope.message = 'Error: Invalid user or password';
-            }); 
+            }); */
     }
 
     public callRestricted(): void {

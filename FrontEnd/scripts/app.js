@@ -8,7 +8,9 @@ var christmasApp;
 (function (christmasApp) {
     'use strict';
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).config(function ($routeProvider, $httpProvider) {
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).factory("loginFactory", function ($http, $window) {
+        return new loginFactory($http, $window);
+    }).config(function ($routeProvider, $httpProvider) {
         $routeProvider.when('/', {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
