@@ -2,6 +2,8 @@
 /// <reference path='typings/angularjs/angular-route.d.ts' />
 /// <reference path='controllers/main.ts' />
 /// <reference path='controllers/about.ts' />
+/// <reference path='controllers/login.ts' />
+/// <reference path='factories/authInterceptor.ts' />
 
 module christmasApp {
   'use strict';
@@ -10,7 +12,8 @@ module christmasApp {
     var ChristmasApp = angular.module('ChristmasApp', ['ngRoute'])
         .controller("MainCtrl", MainCtrl)
         .controller("AboutCtrl", AboutCtrl)
-        .config(($routeProvider: ng.route.IRouteProvider) => {
+        .controller("LoginCtrl", LoginCtrl)
+        .config(($routeProvider: ng.route.IRouteProvider, $httpProvider: ng.IHttpProvider) => {
             $routeProvider
                 .when('/', {
                     templateUrl: 'views/main.html',
@@ -27,6 +30,7 @@ module christmasApp {
                 .otherwise({
                     redirectTo: '/'
                 });
+            $httpProvider.interceptors.push(authInterceptor.Factory);
         });
 
 

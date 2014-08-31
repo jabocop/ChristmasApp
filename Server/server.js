@@ -19,15 +19,16 @@ app.use('/', express.static(path.join(__dirname, '../FrontEnd')));
 
 app.use(function(err, req, res, next){
   if (err.constructor.name === 'UnauthorizedError') {
-    res.send(401, 'Unauthorized');
+    res.status(401).send('Unauthorized');
   }
 });
 
 app.post('/authenticate', function (req, res) {
+  console.log('Call to /autheticate');
   //TODO validate req.body.username and req.body.password
   //if is invalid, return 401
   if (!(req.body.username === 'john.doe' && req.body.password === 'foobar')) {
-    res.send(401, 'Wrong user or password');
+    res.status(401).send('Wrong user or password');
     return;
   }
 
@@ -45,6 +46,7 @@ app.post('/authenticate', function (req, res) {
 });
 
 app.get('/api/restricted', function (req, res) {
+  console.log('Call to /restricted');
   console.log('user ' + req.user.email + ' is calling /api/restricted');
   res.json({
     name: 'foo'
@@ -52,7 +54,8 @@ app.get('/api/restricted', function (req, res) {
 });
 
 app.get('*', function(req, res) {
-		res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html'));		// load the single view file (angular will handle the page changes on the front-end)
+		console.log('Call to *');
+    res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html'));		// load the single view file (angular will handle the page changes on the front-end)
 	});
 
 app.listen(8080, function () {

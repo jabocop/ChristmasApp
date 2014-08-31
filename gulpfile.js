@@ -22,7 +22,7 @@ gulp.task('server', function () {
 gulp.task('ts', function(){
   gulp.src(['FrontEnd/scripts/**/*.ts'])
     .pipe(typescript()).on('error', function () {})
-    .pipe(gulp.dest('scripts/')).on('error', function () {})
+    .pipe(gulp.dest('FrontEnd/scripts/')).on('error', function () {})
 });
  
 gulp.task('default', ['server']);

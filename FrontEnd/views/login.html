@@ -1,0 +1,14 @@
+<form ng-submit="events.submit()">
+    <input ng-model="user.username" type="text" name="user" placeholder="Username" />
+    <input ng-model="user.password" type="password" name="pass" placeholder="Password" />
+    <input type="submit" value="Login" />
+
+      <div ng-show="isAuthenticated">
+        <a ng-click="events.callRestricted()" href="">Shh, this is private!</a>
+        <br>
+        <div>{{message}}</div>
+        <a ng-click="logout()" href="">Logout</a>
+      </div>
+
+
+  </form>
