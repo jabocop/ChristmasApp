@@ -41,9 +41,10 @@ app.post('/authenticate', function (req, res) {
 
   // We are sending the profile inside the token
   var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
-
+  
   res.json({ token: token });
 });
+
 
 app.get('/api/restricted', function (req, res) {
   console.log('Call to /restricted');

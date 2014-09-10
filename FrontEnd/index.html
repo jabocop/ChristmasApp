@@ -9,13 +9,23 @@
 	<body ng-app="ChristmasApp">
 	  	<div class="container">
 	    	<div class="header">
-	    		<ul class="nav nav-pills pull-right">
-	        		<li class="active"><a ng-href="#">Home</a></li>
-                    <li><a ng-href="#/login">Login</a></li>
-                    <li><a ng-href="#/about">About</a></li>
-	        	</ul>
-	        	<h3 class="text-muted">ChristmasApp</h3>
-	      	</div>
+	    	    <div class="navbar navbar-default" ng-controller="HeaderController">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">Christmas App</a>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li ng-class="{active:isActive('/')}"><a href="/">Home</a></li>
+                            <li ng-class="{active:isActive('/about')}"><a href="#/about">About</a></li>
+                            <li ng-class="{active:isActive('/login')}"><a href="#/login">Login</a></li>
+                            
+                        </ul>
+                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.userName}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>
+                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">{{loginFactory.userName}} | <a href="#/login">Log In</a></p>
+                    </div>
+                </div>
+                
+	    	</div>
 
 	    	<div ng-view=""></div>
 
@@ -29,7 +39,8 @@
     	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     	<script src="bower_components/angular-route/angular-route.js"></script>
     	
-        <script src="scripts/controllers/BaseController.js"></script>
+	    <script src="scripts/controllers/BaseController.js"></script>
+        <script src="scripts/controllers/HeaderController.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/login.js"></script>

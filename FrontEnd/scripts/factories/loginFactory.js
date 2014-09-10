@@ -1,4 +1,4 @@
-var loginFactory = (function () {
+﻿var loginFactory = (function () {
     function loginFactory($http, $window) {
         this.$http = $http;
         this.$window = $window;
@@ -24,5 +24,12 @@ var loginFactory = (function () {
             //this.$scope.message = 'Error: Invalid user or password';
         });
     };
+
+    loginFactory.prototype.Logout = function () {
+        delete this.$window.sessionStorage.removeItem("token");
+        this.isAuthenticated = false;
+        this.userName = null;
+    };
     return loginFactory;
 })();
+//# sourceMappingURL=loginFactory.js.map

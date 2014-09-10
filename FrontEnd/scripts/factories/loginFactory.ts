@@ -1,7 +1,7 @@
 ﻿class loginFactory {
     private $http : ng.IHttpService;
     private $window : ng.IWindowService;
-    private isAuthenticated : boolean;
+    public isAuthenticated : boolean;
     public  userName : string;
 
     
@@ -32,5 +32,11 @@
                 alert("Fail!");
                 //this.$scope.message = 'Error: Invalid user or password';
             }); 
+    }
+
+    public Logout(): void {
+        delete this.$window.sessionStorage.removeItem("token");
+        this.isAuthenticated = false;
+        this.userName = null;
     }
 }
