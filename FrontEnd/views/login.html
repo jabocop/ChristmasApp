@@ -1,5 +1,5 @@
 <form ng-submit="events.submit()">
-    <input ng-model="user.username" type="text" name="user" placeholder="Username" />
+    <input ng-model="user.email" type="text" name="user" placeholder="Email" />
     <input ng-model="user.password" type="password" name="pass" placeholder="Password" />
     <input type="submit" value="Login" />
 
@@ -7,7 +7,7 @@
         <a ng-click="events.callRestricted()" href="">Shh, this is private!</a>
         <br>
         <div>{{message}}</div>
-          <div>{{loginFactory.userName}}</div>
+          <div>{{loginFactory.email}}</div>
         <a ng-click="logout()" href="">Logout</a>
       </div>
 

@@ -20,8 +20,8 @@
                             <li ng-class="{active:isActive('/login')}"><a href="#/login">Login</a></li>
                             
                         </ul>
-                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.userName}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>
-                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">{{loginFactory.userName}} | <a href="#/login">Log In</a></p>
+                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.email}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>
+                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">{{loginFactory.email}} | <a href="#/login">Log In</a></p>
                     </div>
                 </div>
                 

@@ -13,9 +13,11 @@ var secret = 'this is the secret secret secret 12356';
 
 var app = express();
 
-
-/*User.create({
-      name : 'abc',
+/*
+User.create({
+      email : 'abc',
+      firstname: 'Anders',
+      lastname: 'BC',
       password : '123'
     },function (err,user) {
       if (err) {
@@ -44,8 +46,8 @@ app.post('/authenticate', function (req, res) {
   //if is invalid, return 401
   
   
-  console.log('Loggining in user: ' + req.body.username);
-  User.findOne({name:req.body.username}, function(err,user) {
+  console.log('Loggining in user: ' + req.body.email);
+  User.findOne({email:req.body.email}, function(err,user) {
       
       var userFound = true;
       
@@ -67,9 +69,9 @@ app.post('/authenticate', function (req, res) {
 
       if (userFound) {
         var profile = {
-          first_name: user.Name,
-          last_name: user.Name,
-          email: user.Name,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
           id: user._id
         }; 
 

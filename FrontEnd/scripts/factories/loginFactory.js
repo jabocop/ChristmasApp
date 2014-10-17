@@ -13,8 +13,8 @@ var loginFactory = (function () {
             var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
 
             //this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
-            alert("Success" + user.username);
-            _this.userName = user.username;
+            alert("Success" + user.email);
+            _this.email = user.email;
         }).error(function (data, status, headers, config) {
             // Erase the token if the user fails to log in
             delete _this.$window.sessionStorage.removeItem("token");
@@ -28,7 +28,7 @@ var loginFactory = (function () {
     loginFactory.prototype.Logout = function () {
         delete this.$window.sessionStorage.removeItem("token");
         this.isAuthenticated = false;
-        this.userName = null;
+        this.email = null;
     };
     return loginFactory;
 })();

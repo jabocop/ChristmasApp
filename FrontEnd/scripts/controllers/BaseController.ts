@@ -1,7 +1,7 @@
 ﻿/// <reference path='../typings/angularjs/angular.d.ts' />
 
 interface IUser {
-    username: string;
+    email: string;
     password: string;
 }
 

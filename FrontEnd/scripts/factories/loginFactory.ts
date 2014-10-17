@@ -2,7 +2,7 @@
     private $http : ng.IHttpService;
     private $window : ng.IWindowService;
     public isAuthenticated : boolean;
-    public  userName : string;
+    public  email : string;
 
     
     constructor( $http: ng.IHttpService, $window: ng.IWindowService) {
@@ -21,8 +21,8 @@
                 var urlEnoder = new urlDecoder();
                 var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
                 //this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
-                alert("Success" + user.username);
-                this.userName = user.username;
+                alert("Success" + user.email);
+                this.email = user.email;
             })
             .error((data, status, headers, config) =>  {
                 // Erase the token if the user fails to log in
@@ -37,6 +37,6 @@
     public Logout(): void {
         delete this.$window.sessionStorage.removeItem("token");
         this.isAuthenticated = false;
-        this.userName = null;
+        this.email = null;
     }
 }
