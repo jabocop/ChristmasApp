@@ -1,11 +1,11 @@
-﻿
+﻿/// <reference path='../typings/angularjs/angular.d.ts' />
+/// <reference path='BaseController.ts' />
+
 
 interface ILoginEvents {
     submit: () => void;
     callRestricted: () => void;
 }
-/// <reference path='typings/angularjs/angular.d.ts' />
-/// <reference path='BaseController.ts' />
 
 interface ILoginScope extends IBaseScope {
     user: IUser;
@@ -61,23 +61,6 @@ class LoginCtrl extends BaseController {
 
     public submit(): void {
         this.loginFactory.Login(this.$scope.user);
-        /*this.$http
-            .post<IAuthorizeRetVal>('/authenticate', this.$scope.user)
-            .success((data, status, headers, config) =>  {
-                this.$window.sessionStorage.setItem("token",data.token);
-                this.$scope.isAuthenticated = true;
-                var encodedProfile = data.token.split('.')[1];
-                var urlEnoder = new urlDecoder();
-                var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
-                this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
-            })
-            .error((data, status, headers, config) =>  {
-                // Erase the token if the user fails to log in
-                delete this.$window.sessionStorage.removeItem("token");
-
-                // Handle login errors here
-                this.$scope.message = 'Error: Invalid user or password';
-            }); */
     }
 
     public callRestricted(): void {

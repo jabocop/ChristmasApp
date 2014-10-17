@@ -1,4 +1,4 @@
-﻿var loginFactory = (function () {
+var loginFactory = (function () {
     function loginFactory($http, $window) {
         this.$http = $http;
         this.$window = $window;
@@ -32,4 +32,3 @@
     };
     return loginFactory;
 })();
-//# sourceMappingURL=loginFactory.js.map
