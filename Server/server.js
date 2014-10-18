@@ -15,7 +15,7 @@ var app = express();
 
 /*
 User.create({
-      email : 'abc',
+      email : 'abc@abc',
       firstname: 'Anders',
       lastname: 'BC',
       password : '123'
@@ -25,7 +25,8 @@ User.create({
       } else {
         console.log('User created');
       }
-    });*/
+    });
+*/
 
 // We are going to protect /api routes with JWT
 app.use('/api', expressJwt({secret: secret}));
@@ -44,8 +45,6 @@ app.post('/authenticate', function (req, res) {
   console.log('Call to /autheticate');
   //TODO validate req.body.username and req.body.password
   //if is invalid, return 401
-  
-  
   console.log('Loggining in user: ' + req.body.email);
   User.findOne({email:req.body.email}, function(err,user) {
       
@@ -85,6 +84,23 @@ app.post('/authenticate', function (req, res) {
       
   });
 
+});
+
+app.post('/newUser', function (req, res) {
+  console.log('Call to /newUser');
+  User.create({
+      email : req.body.email,
+      firstname: req.body.firstName,
+      lastname: req.body.lastName,
+      password : req.body.password
+    },function (err,user) {
+      if (err) {
+        console.log("Failed to create user" + err);
+      } else {
+        res.json({User: user})
+        console.log('User created. User:' + user);
+      }
+    });
 });
 
 

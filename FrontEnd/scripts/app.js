@@ -8,8 +8,8 @@ var christmasApp;
 (function (christmasApp) {
     'use strict';
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("NeaderController", HeaderController).factory("loginFactory", function ($http, $window) {
-        return new loginFactory($http, $window);
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("NeaderController", HeaderController).factory("loginFactory", function ($http, $window, $location) {
+        return new loginFactory($http, $window, $location);
     }).config(function ($routeProvider, $httpProvider) {
         $routeProvider.when('/', {
             templateUrl: 'views/main.html',
@@ -20,6 +20,9 @@ var christmasApp;
         }).when('/login', {
             templateUrl: 'views/login.html',
             controller: 'LoginCtrl'
+        }).when('/newUser', {
+            templateUrl: 'views/newUser.html',
+            controller: 'NewUserCtrl'
         }).otherwise({
             redirectTo: '/'
         });

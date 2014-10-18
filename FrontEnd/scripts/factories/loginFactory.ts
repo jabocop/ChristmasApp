@@ -1,13 +1,15 @@
 ﻿class loginFactory {
     private $http : ng.IHttpService;
     private $window : ng.IWindowService;
+    private $location : any;
     public isAuthenticated : boolean;
     public  email : string;
 
     
-    constructor( $http: ng.IHttpService, $window: ng.IWindowService) {
+    constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:any) {
         this.$http = $http;
         this.$window = $window;
+        this.$location = $location;
     }
 
 
@@ -39,4 +41,18 @@
         this.isAuthenticated = false;
         this.email = null;
     }
+
+    public NewUser(user:IUser) : void {
+        this.$http
+            .post<any>('/newUser',user)
+            .success((data, status, headers,config) => {
+                alert("New user registered succesfully");
+                this.$location.path('/login')
+            }) 
+            .error((data,status,headers,config)=> {
+                alert("Failed to register user")
+            });
+    }
+
+
 }

@@ -14,7 +14,7 @@ module christmasApp {
         .controller("AboutCtrl", AboutCtrl)
         .controller("LoginCtrl", LoginCtrl)
         .controller("NeaderController", HeaderController)
-        .factory("loginFactory", ($http,$window) => new loginFactory($http,$window))
+        .factory("loginFactory", ($http,$window,$location) => new loginFactory($http,$window,$location))
         .config(($routeProvider: ng.route.IRouteProvider, $httpProvider: ng.IHttpProvider) => {
             $routeProvider
                 .when('/', {
@@ -28,6 +28,10 @@ module christmasApp {
                 .when('/login', {
                     templateUrl: 'views/login.html',
                     controller: 'LoginCtrl'
+                })
+                .when('/newUser', {
+                    templateUrl: 'views/newUser.html',
+                    controller: 'NewUserCtrl'
                 })
                 .otherwise({
                     redirectTo: '/'

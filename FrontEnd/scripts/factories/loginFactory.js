@@ -1,7 +1,8 @@
 var loginFactory = (function () {
-    function loginFactory($http, $window) {
+    function loginFactory($http, $window, $location) {
         this.$http = $http;
         this.$window = $window;
+        this.$location = $location;
     }
     loginFactory.prototype.Login = function (user) {
         var _this = this;
@@ -29,6 +30,16 @@ var loginFactory = (function () {
         delete this.$window.sessionStorage.removeItem("token");
         this.isAuthenticated = false;
         this.email = null;
+    };
+
+    loginFactory.prototype.NewUser = function (user) {
+        var _this = this;
+        this.$http.post('/newUser', user).success(function (data, status, headers, config) {
+            alert("New user registered succesfully");
+            _this.$location.path('/login');
+        }).error(function (data, status, headers, config) {
+            alert("Failed to register user");
+        });
     };
     return loginFactory;
 })();

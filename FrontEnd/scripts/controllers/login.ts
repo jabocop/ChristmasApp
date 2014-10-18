@@ -51,7 +51,7 @@ class LoginCtrl extends BaseController {
         this.$http = $http;
         this.$window = $window;
         this.loginFactory = loginFactory;
-        $scope.user = { email: 'john.doe', password: 'foobar' };  
+        $scope.user = null;
         $scope.message = '';  
         $scope.events = this;
         $scope.loginFactory = loginFactory;
