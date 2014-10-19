@@ -1,20 +1,38 @@
 ﻿/// <reference path='../typings/angularjs/angular.d.ts' />
 
 interface IUser {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+}
+
+interface INewUser extends IUser {
+    password: string;
+}
+
+
+
+
+interface ILoginUser {
     email: string;
     password: string;
 }
 
 interface IBaseScope extends ng.IScope {
-    user: IUser;
+    loginFactory: loginFactory;
     message: string;
     welcome: string;
-    isAuthenticated: boolean;
+    
 }
 
 class BaseController {
-    private baseScope : IBaseScope
-    constructor($scope: IBaseScope) {
+    private baseScope: IBaseScope;
+    public loginFactory: loginFactory;
+
+    constructor($scope: IBaseScope,loginFactory :loginFactory) {
         this.baseScope = $scope;
+        this.loginFactory = loginFactory;
+        this.baseScope.loginFactory = loginFactory;
     }
 }

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{a362c73a-a0f8-455c-a75f-3e9346335591}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -20,12 +20,16 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Compile Include="gulpfile.js" />
+    <Compile Include="Server\Models\User.js" />
     <Compile Include="Server\server.js" />
     <Content Include="FrontEnd\index.html" />
     <Content Include="FrontEnd\scripts\controllers\login.ts" />
+    <Content Include="FrontEnd\scripts\controllers\newUserController.ts" />
     <Content Include="FrontEnd\scripts\factories\authInterceptor.ts" />
     <Content Include="FrontEnd\views\bower.json" />
     <Content Include="FrontEnd\views\login.html" />
+    <Content Include="FrontEnd\views\newUser.html" />
+    <Content Include="FrontEnd\views\wishlist.html" />
     <Content Include="package.json" />
     <TypeScriptCompile Include="FrontEnd\scripts\app.ts" />
     <Content Include="FrontEnd\styles\main.css" />
@@ -167,6 +171,7 @@
     <TypeScriptCompile Include="FrontEnd\scripts\controllers\BaseController.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\controllers\HeaderController.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\controllers\main.ts" />
+    <TypeScriptCompile Include="FrontEnd\scripts\controllers\WishListController.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\factories\loginFactory.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\typings\angularjs\angular-route.d.ts" />
     <TypeScriptCompile Include="FrontEnd\scripts\typings\angularjs\angular.d.ts" />
@@ -236,6 +241,7 @@
     <Folder Include="FrontEnd\styles" />
     <Folder Include="FrontEnd\views" />
     <Folder Include="Server\" />
+    <Folder Include="Server\Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />

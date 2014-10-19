@@ -1,21 +1,29 @@
-﻿class loginFactory {
+﻿interface ILoginResult {
+    token: string;
+    user: IUser;
+}
+
+class loginFactory {
     private $http : ng.IHttpService;
     private $window : ng.IWindowService;
-    private $location : any;
+    private $location : ng.ILocationService;
     public isAuthenticated : boolean;
-    public  email : string;
+    public user: IUser;
+    public email: string;
+    
+
 
     
-    constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:any) {
+    constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:ng.ILocationService) {
         this.$http = $http;
         this.$window = $window;
         this.$location = $location;
     }
 
 
-    public Login(user : IUser) : void {
+    public Login(user : ILoginUser) : void {
         this.$http
-            .post<IAuthorizeRetVal>('/authenticate', user)
+            .post<ILoginResult>('/authenticate', user)
             .success((data, status, headers, config) =>  {
                 this.$window.sessionStorage.setItem("token",data.token);
                 this.isAuthenticated = true;
@@ -25,6 +33,7 @@
                 //this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
                 alert("Success" + user.email);
                 this.email = user.email;
+                this.user = data.user;
             })
             .error((data, status, headers, config) =>  {
                 // Erase the token if the user fails to log in
@@ -42,9 +51,9 @@
         this.email = null;
     }
 
-    public NewUser(user:IUser) : void {
+    public NewUser(user:INewUser) : void {
         this.$http
-            .post<any>('/newUser',user)
+            .post<IUser>('/newUser',user)
             .success((data, status, headers,config) => {
                 alert("New user registered succesfully");
                 this.$location.path('/login')
@@ -54,5 +63,25 @@
             });
     }
 
+}
 
+
+
+class urlDecoder {
+    public url_base64_decode(str: string) {
+        var output = str.replace('-', '+').replace('_', '/');
+        switch (output.length % 4) {
+            case 0:
+                break;
+            case 2:
+                output += '==';
+                break;
+            case 3:
+                output += '=';
+                break;
+            default:
+                throw 'Illegal base64url string!';
+        }
+        return window.atob(output); //polifyll https://github.com/davidchambers/Base64.js
+    }
 }

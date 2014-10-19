@@ -13,7 +13,7 @@ module christmasApp {
         .controller("MainCtrl", MainCtrl)
         .controller("AboutCtrl", AboutCtrl)
         .controller("LoginCtrl", LoginCtrl)
-        .controller("NeaderController", HeaderController)
+        .controller("HeaderController", HeaderController)
         .factory("loginFactory", ($http,$window,$location) => new loginFactory($http,$window,$location))
         .config(($routeProvider: ng.route.IRouteProvider, $httpProvider: ng.IHttpProvider) => {
             $routeProvider
@@ -32,6 +32,10 @@ module christmasApp {
                 .when('/newUser', {
                     templateUrl: 'views/newUser.html',
                     controller: 'NewUserCtrl'
+                })
+                .when('/wishList/:userId', {
+                    templateUrl: 'views/wishList.html',
+                    controller: 'WishlistCtrl'                        
                 })
                 .otherwise({
                     redirectTo: '/'

@@ -8,8 +8,8 @@ var __extends = this.__extends || function (d, b) {
 
 var MainCtrl = (function (_super) {
     __extends(MainCtrl, _super);
-    function MainCtrl($scope) {
-        _super.call(this, $scope);
+    function MainCtrl($scope, loginFactory) {
+        _super.call(this, $scope, loginFactory);
         this.$scope = $scope;
         $scope.awesomeThings = [
             'HTML5 Boilerplate',

@@ -67,17 +67,10 @@ app.post('/authenticate', function (req, res) {
       }
 
       if (userFound) {
-        var profile = {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          id: user._id
-        }; 
-
         // We are sending the profile inside the token
-        var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
+        var token = jwt.sign(user, secret, { expiresInMinutes: 60*5 });
       
-        res.json({ token: token });
+        res.json({ token: token, user:user });
       } else {
           res.status(401).send('Unauthorized');
       }

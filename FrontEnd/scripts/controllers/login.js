@@ -7,43 +7,19 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 
-var urlDecoder = (function () {
-    function urlDecoder() {
-    }
-    urlDecoder.prototype.url_base64_decode = function (str) {
-        var output = str.replace('-', '+').replace('_', '/');
-        switch (output.length % 4) {
-            case 0:
-                break;
-            case 2:
-                output += '==';
-                break;
-            case 3:
-                output += '=';
-                break;
-            default:
-                throw 'Illegal base64url string!';
-        }
-        return window.atob(output);
-    };
-    return urlDecoder;
-})();
-
 var LoginCtrl = (function (_super) {
     __extends(LoginCtrl, _super);
     function LoginCtrl(loginFactory, $scope, $http, $window) {
-        _super.call(this, $scope);
+        _super.call(this, $scope, loginFactory);
         this.$scope = $scope;
         this.$http = $http;
         this.$window = $window;
-        this.loginFactory = loginFactory;
-        $scope.user = null;
+        $scope.loginUser = null;
         $scope.message = '';
         $scope.events = this;
-        $scope.loginFactory = loginFactory;
     }
     LoginCtrl.prototype.submit = function () {
-        this.loginFactory.Login(this.$scope.user);
+        this.loginFactory.Login(this.$scope.loginUser);
     };
 
     LoginCtrl.prototype.callRestricted = function () {

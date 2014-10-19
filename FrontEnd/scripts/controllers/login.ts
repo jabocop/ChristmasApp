@@ -8,7 +8,7 @@ interface ILoginEvents {
 }
 
 interface ILoginScope extends IBaseScope {
-    user: IUser;
+    loginUser: ILoginUser;
     message: string;
     welcome: string;
     isAuthenticated: boolean;
@@ -20,47 +20,27 @@ interface IAuthorizeRetVal {
     token: string;
 }
 
-class urlDecoder {
-  public url_base64_decode(str:string) {
-      var output = str.replace('-', '+').replace('_', '/');
-      switch (output.length % 4) {
-          case 0:
-            break;
-          case 2:
-            output += '==';
-            break;
-          case 3:
-            output += '=';
-            break;
-          default:
-            throw 'Illegal base64url string!';
-      }
-      return window.atob(output); //polifyll https://github.com/davidchambers/Base64.js
-    }
-}
+
 
 
 class LoginCtrl extends BaseController {
     private $http: ng.IHttpService;
     private $window: ng.IWindowService;
     private $scope: ILoginScope;
-    private loginFactory : loginFactory;
     constructor(loginFactory : loginFactory, $scope: ILoginScope, $http: ng.IHttpService, $window: ng.IWindowService) {
-        super($scope);
+        super($scope,loginFactory);
         this.$scope = $scope;
         this.$http = $http;
         this.$window = $window;
-        this.loginFactory = loginFactory;
-        $scope.user = null;
+        $scope.loginUser = null;
         $scope.message = '';  
         $scope.events = this;
-        $scope.loginFactory = loginFactory;
     }
 
 
 
     public submit(): void {
-        this.loginFactory.Login(this.$scope.user);
+        this.loginFactory.Login(this.$scope.loginUser);
     }
 
     public callRestricted(): void {

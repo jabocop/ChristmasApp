@@ -8,8 +8,8 @@ interface IMainScope extends IBaseScope {
 
 class MainCtrl extends BaseController {
     private $scope : IMainScope;
-    constructor($scope: IMainScope) {
-        super($scope);
+    constructor($scope: IMainScope, loginFactory: loginFactory) {
+        super($scope,loginFactory);
         this.$scope = $scope;
         $scope.awesomeThings = [
       		'HTML5 Boilerplate',

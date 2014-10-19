@@ -16,6 +16,7 @@ var loginFactory = (function () {
             //this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
             alert("Success" + user.email);
             _this.email = user.email;
+            _this.user = data.user;
         }).error(function (data, status, headers, config) {
             // Erase the token if the user fails to log in
             delete _this.$window.sessionStorage.removeItem("token");
@@ -42,4 +43,26 @@ var loginFactory = (function () {
         });
     };
     return loginFactory;
+})();
+
+var urlDecoder = (function () {
+    function urlDecoder() {
+    }
+    urlDecoder.prototype.url_base64_decode = function (str) {
+        var output = str.replace('-', '+').replace('_', '/');
+        switch (output.length % 4) {
+            case 0:
+                break;
+            case 2:
+                output += '==';
+                break;
+            case 3:
+                output += '=';
+                break;
+            default:
+                throw 'Illegal base64url string!';
+        }
+        return window.atob(output);
+    };
+    return urlDecoder;
 })();
