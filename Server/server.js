@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 mongoose.connect("localhost:27017/ChristmasApp");
 
 var User = require('./Models/User');
+var Wish = require('./Models/Wish');
 
 var secret = 'this is the secret secret secret 12356';
 
@@ -15,18 +16,35 @@ var app = express();
 
 /*
 User.create({
-      email : 'abc@abc',
-      firstname: 'Anders',
+      email : 'test@testapa',
+      firstname: 'TestAPA',
       lastname: 'BC',
       password : '123'
     },function (err,user) {
       if (err) {
         console.log("Failed to create user" + err);
       } else {
-        console.log('User created');
+          console.log('User created');
+          Wish.create({
+              name: 'Name',
+              comment: 'Comment',
+              url: 'www.google.com',
+              user: user._id
+          }, function(err, wish) {
+              if (err) {
+                  console.log("Failed to create wish. Message: " + err);
+              } else {
+                  console.log('Wish created' + wish);
+              }
+          });
+        
       }
     });
 */
+
+
+
+
 
 // We are going to protect /api routes with JWT
 app.use('/api', expressJwt({secret: secret}));
@@ -47,22 +65,20 @@ app.post('/authenticate', function (req, res) {
   //if is invalid, return 401
   console.log('Loggining in user: ' + req.body.email);
   User.findOne({email:req.body.email}, function(err,user) {
-      
       var userFound = true;
-      
       if (err) {
         console.log(err);
-        userFound = false
+        userFound = false;
       } 
       if (!user) {
-          console.log('Cant find user');
-          userFound = false
+        console.log('Cant find user');
+        userFound = false;
       } else {
-        console.log('User' + user)
+          console.log('User' + user);
       
         if (user.password !== req.body.password) {
-           console.log('Wrong password');
-           userFound = false
+            console.log('Wrong password');
+            userFound = false;
         }
       }
 
@@ -90,11 +106,13 @@ app.post('/newUser', function (req, res) {
       if (err) {
         console.log("Failed to create user" + err);
       } else {
-        res.json({User: user})
-        console.log('User created. User:' + user);
+          console.log('User created. User:' + user);
+          res.json({ User: user });
       }
     });
 });
+
+
 
 
 app.get('/api/restricted', function (req, res) {
