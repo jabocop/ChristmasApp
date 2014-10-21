@@ -21,6 +21,7 @@
   <ItemGroup>
     <Compile Include="gulpfile.js" />
     <Compile Include="Server\Models\User.js" />
+    <Compile Include="Server\Models\Wish.js" />
     <Compile Include="Server\server.js" />
     <Content Include="FrontEnd\index.html" />
     <Content Include="FrontEnd\scripts\controllers\login.ts" />

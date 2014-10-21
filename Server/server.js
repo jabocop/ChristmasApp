@@ -112,6 +112,34 @@ app.post('/newUser', function (req, res) {
     });
 });
 
+app.post('/newWish', function(req, res) {
+    console.log('Call to /newWish');
+    Wish.create({
+        name: req.body.name,
+        comment: req.body.comment,
+        url: req.body.url,
+        user: req.body.userId
+    }, function (err, wish) {
+        if (err) {
+            console.log("Failed to create wish" + err);
+        } else {
+            console.log('Wish created. Wish:' + wish);
+            res.json({ Wish: wish });
+        }
+    });
+});
+
+
+app.get('/listWishes/:userId', function(req, res) {
+    console.log('Call to /listWishes');
+    Wish.find({ user: req.params.userId }, function(err, wishes) {
+        if (!err) {
+            res.send(wishes);
+        } else {
+            console.log("Error occured. Message : " + err);
+        }
+    });
+});
 
 
 

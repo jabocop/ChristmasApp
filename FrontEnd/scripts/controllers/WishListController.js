@@ -16,16 +16,30 @@ var WishlistCtrl = (function (_super) {
         this.$http = $http;
         $scope.events = this;
         $scope.userId = $routeParams.userId;
+        this.$scope.newWish = {
+            name: "",
+            comment: "",
+            url: "",
+            userId: this.loginFactory.user._id
+        };
         /*
         if (this.userId !== undefined) {
         this.getWishlist(this.userId);
         }*/
     }
     WishlistCtrl.prototype.getWishlist = function (userId) {
-        this.$http.get('/getWishList', { params: { UserId: userId } }).success(function (data, status) {
+        this.$http.get('/listWishes', { params: { UserId: userId } }).success(function (data, status) {
             alert('Success' + data);
         }).error(function (data, status) {
             alert("Fail!");
+        });
+    };
+
+    WishlistCtrl.prototype.addWish = function () {
+        this.$http.post('newWish', this.$scope.newWish).success(function (data, status) {
+            alert('Wish created successfully');
+        }).error(function (data, status) {
+            alert("Failed to add wish");
         });
     };
     return WishlistCtrl;

@@ -1,7 +1,24 @@
 ﻿/// <reference path='../typings/angularjs/angular.d.ts' />
 
+interface IWish{
+    name: string;
+    comment: string;
+    url: string;
+    user: IUser;
+}
+
+interface INewWish {
+    name: string;
+    comment: string;
+    url: string;
+    userId: string;
+}
+
+
+
+
 interface IUser {
-    id: string;
+    _id: string;
     email: string;
     firstName: string;
     lastName: string;

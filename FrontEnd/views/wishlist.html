@@ -1,1 +1,18 @@
 ﻿<p>This is the wishlist view for {{userId}}.</p>
+
+<form role="form" ng-submit="events.addWish()">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input ng-model="newWish.name" type="text" class="form-control" id="name" name="name" placeholder="Enter wish" />
+    </div>
+    <div class="form-group">
+        <label for="comment">Comment</label>
+        <input ng-model="newWish.comment" type="text" class="form-control" id="comment" name="comment" placeholder="Comment" />
+    </div>
+    <div class="form-group">
+        <label for="url">Url</label>
+        <input ng-model="newWish.url" type="text" class="form-control" id="url" name="url" placeholder="Url" />
+    </div>
+    
+    <input type="submit" value="Add" />
+</form>
