@@ -29,7 +29,7 @@ User.create({
               name: 'Name',
               comment: 'Comment',
               url: 'www.google.com',
-              user: user._id
+              userId: user._id
           }, function(err, wish) {
               if (err) {
                   console.log("Failed to create wish. Message: " + err);
@@ -118,7 +118,7 @@ app.post('/newWish', function(req, res) {
         name: req.body.name,
         comment: req.body.comment,
         url: req.body.url,
-        user: req.body.userId
+        userId: req.body.userId
     }, function (err, wish) {
         if (err) {
             console.log("Failed to create wish" + err);
@@ -130,11 +130,13 @@ app.post('/newWish', function(req, res) {
 });
 
 
-app.get('/listWishes/:userId', function(req, res) {
+app.get('/listWishes', function(req, res) {
     console.log('Call to /listWishes');
-    Wish.find({ user: req.params.userId }, function(err, wishes) {
+    console.log('UserId:' + req.param('userId'));
+    Wish.find({ userId: req.param('userId')}, function(err, wishes) {
         if (!err) {
-            res.send(wishes);
+            console.log(wishes);
+            res.json(wishes);
         } else {
             console.log("Error occured. Message : " + err);
         }
@@ -151,7 +153,7 @@ app.get('/api/restricted', function (req, res) {
   });
 });
 
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
 		console.log('Call to *');
     res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html'));		// load the single view file (angular will handle the page changes on the front-end)
 	});

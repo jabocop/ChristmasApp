@@ -16,28 +16,35 @@ var WishlistCtrl = (function (_super) {
         this.$http = $http;
         $scope.events = this;
         $scope.userId = $routeParams.userId;
-        this.$scope.newWish = {
+        this.$scope.newWish = this.getEmptyWish();
+
+        this.getWishlist();
+    }
+    WishlistCtrl.prototype.getEmptyWish = function () {
+        return {
             name: "",
             comment: "",
             url: "",
             userId: this.loginFactory.user._id
         };
-        /*
-        if (this.userId !== undefined) {
-        this.getWishlist(this.userId);
-        }*/
-    }
-    WishlistCtrl.prototype.getWishlist = function (userId) {
-        this.$http.get('/listWishes', { params: { UserId: userId } }).success(function (data, status) {
-            alert('Success' + data);
-        }).error(function (data, status) {
-            alert("Fail!");
-        });
+    };
+
+    WishlistCtrl.prototype.getWishlist = function () {
+        var _this = this;
+        if (this.$scope.userId !== undefined) {
+            this.$http.get('/listWishes', { params: { userId: this.$scope.userId } }).success(function (data, status) {
+                _this.$scope.wishes = data;
+            }).error(function (data, status) {
+                alert("Fail!");
+            });
+        }
     };
 
     WishlistCtrl.prototype.addWish = function () {
+        var _this = this;
         this.$http.post('newWish', this.$scope.newWish).success(function (data, status) {
-            alert('Wish created successfully');
+            _this.$scope.newWish = _this.getEmptyWish();
+            _this.getWishlist();
         }).error(function (data, status) {
             alert("Failed to add wish");
         });

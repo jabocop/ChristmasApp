@@ -17,7 +17,7 @@
                         <ul class="nav navbar-nav">
                             <li ng-class="{active:isActive('/')}"><a href="/">Home</a></li>
                             <li ng-class="{active:isActive('/about')}"><a href="#/about">About</a></li>
-                            <li ng-class="{active:isActive('/wishlist')}"><a href="#/wishList/apa">Wishlist</a></li>
+                            <li ng-class="{active:isActive('/wishlist')}"><a href="#/wishList/{{loginFactory.user._id}}">Wishlist</a></li>
                             
                         </ul>
                         <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.email}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>

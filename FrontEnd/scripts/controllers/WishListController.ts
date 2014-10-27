@@ -8,7 +8,8 @@ interface IWishlistEvents {
 
 interface IWishlistScope extends IBaseScope {
     userId: string;
-    newWish : INewWish;
+    newWish : IWish;
+	wishes : IWish[];
     events: IWishlistEvents;
 }
 
@@ -19,7 +20,6 @@ interface IWishlistParams {
 
 class WishlistCtrl extends BaseController {
     private $scope: IWishlistScope;
-    private userId: string;
     private $http: ng.IHttpService;
 
     constructor($scope: IWishlistScope, $routeParams: IWishlistParams, $http: ng.IHttpService, loginFactory: loginFactory) {
@@ -28,32 +28,38 @@ class WishlistCtrl extends BaseController {
         this.$http = $http;
         $scope.events = this;
         $scope.userId = $routeParams.userId;
-        this.$scope.newWish = {
+        this.$scope.newWish = this.getEmptyWish();
+        
+        
+		this.getWishlist();
+	}
+    
+	private getEmptyWish() : IWish {
+		return {
             name: "",
             comment: "",
             url: "",
             userId: this.loginFactory.user._id
         };
-        /*
-        if (this.userId !== undefined) {
-            this.getWishlist(this.userId);
-        }*/
-    }
+	}
 
-    private getWishlist(userId: string) {
-        this.$http.get<IWish[]>('/listWishes', { params: { UserId: userId } })
-            .success((data, status) => {
-                alert('Success' + data);
-            })
-            .error((data, status) => {
-                alert("Fail!");
-            });
+    private getWishlist() {
+        if (this.$scope.userId !== undefined) {
+			this.$http.get<IWish[]>('/listWishes', { params: { userId: this.$scope.userId } })
+				.success((data, status) => {
+					this.$scope.wishes = data;
+				})
+				.error((data, status) => {
+					alert("Fail!");
+				});
+		}
     }
 
     public addWish() {
         this.$http.post<any>('newWish', this.$scope.newWish)
             .success((data, status) => {
-                alert('Wish created successfully');
+                this.$scope.newWish = this.getEmptyWish();
+				this.getWishlist();
             })
             .error((data, status) => {
                 alert("Failed to add wish");
