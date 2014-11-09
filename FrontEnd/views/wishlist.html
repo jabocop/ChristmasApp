@@ -1,33 +1,40 @@
-﻿
-
-
-<table class="table table-striped">>
-	<thead>
-		<tr>
-			<td>Name</td>
-			<td>Url</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="wish in wishes">
-			<td>{{wish.name}}</td>
-			<td><a href="{{wish.url}}">{{wish.url}}</a></td>
-		</tr>
-	</tbody>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Url</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="wish in wishes">
+            <td>{{wish.name}}</td>
+            <td><a href="{{wish.url}}">{{wish.url}}</a>
+            </td>
+            <td><a ng-click="events.editWish(wish);"><span class="glyphicon glyphicon-edit"></span></a>
+            </td>
+            <td><a ng-click="events.deleteWish(wish);"><span class="glyphicon glyphicon-remove"></span></a>
+            </td>
+        </tr>
+    </tbody>
 </table>
-<form role="form" ng-submit="events.addWish()">
+<a ng-click="events.addWish()">Add wish</a>
+<form role="form" ng-submit="events.saveWish()">
+    <!-- TODO Fix more nice than 1,2-->
+    <legend ng-show="editMode == 2">Edit wish</legend>
+    <legend ng-show="editMode == 1">Add wish</legend>
     <div class="form-group">
         <label for="name">Name</label>
-        <input ng-model="newWish.name" type="text" class="form-control" id="name" name="name" placeholder="Enter wish" />
+        <input ng-model="editedWish.name" type="text" class="form-control" id="name" name="name" placeholder="Enter wish" />
     </div>
     <div class="form-group">
         <label for="comment">Comment</label>
-        <input ng-model="newWish.comment" type="text" class="form-control" id="comment" name="comment" placeholder="Comment" />
+        <input ng-model="editedWish.comment" type="text" class="form-control" id="comment" name="comment" placeholder="Comment" />
     </div>
     <div class="form-group">
         <label for="url">Url</label>
-        <input ng-model="newWish.url" type="text" class="form-control" id="url" name="url" placeholder="Url" />
+        <input ng-model="editedWish.url" type="text" class="form-control" id="url" name="url" placeholder="Url" />
     </div>
-    
+
     <input type="submit" value="Add" />
 </form>

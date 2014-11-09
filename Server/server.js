@@ -61,7 +61,6 @@ app.use(function(err, req, res, next){
 
 app.post('/authenticate', function (req, res) {
   console.log('Call to /autheticate');
-  //TODO validate req.body.username and req.body.password
   //if is invalid, return 401
   console.log('Loggining in user: ' + req.body.email);
   User.findOne({email:req.body.email}, function(err,user) {
@@ -114,17 +113,50 @@ app.post('/newUser', function (req, res) {
 
 app.post('/newWish', function(req, res) {
     console.log('Call to /newWish');
-    Wish.create({
+    var wish = {
         name: req.body.name,
         comment: req.body.comment,
         url: req.body.url,
         userId: req.body.userId
-    }, function (err, wish) {
+    };
+    Wish.create(wish, function (err, wish) {
         if (err) {
             console.log("Failed to create wish" + err);
         } else {
             console.log('Wish created. Wish:' + wish);
             res.json({ Wish: wish });
+        }
+    });
+});
+
+app.post('/deleteWish', function(req, res) {
+    console.log('Call to /deleteWish with id: ' + req.body._id );
+    Wish.remove({_id : req.body._id }, function(err) {
+        if (!err) {
+            console.log('Wish removed');
+            //return empty
+            res.json({});
+        } else {
+            console.log("Error occured. Message : " + err);
+        }
+    });
+});
+
+app.post('/saveWish', function(req,res) {
+    console.log('Call  to /editWish');
+    //TODO: use function to create wish
+    var wish ={
+        name: req.body.name,
+        comment: req.body.comment,
+        url: req.body.url,
+        userId: req.body.userId
+    };
+    Wish.update({_id: req.body._id },wish,{upsert : true}, function(err) {
+        if (!err) {
+            console.log('Wish edited');
+            res.json({ Wish: wish });
+        } else {
+            console.log("Error occured. Message : " + err);
         }
     });
 });

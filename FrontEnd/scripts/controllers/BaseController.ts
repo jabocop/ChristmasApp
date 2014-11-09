@@ -1,6 +1,7 @@
-﻿/// <reference path='../typings/angularjs/angular.d.ts' />
+/// <reference path='../typings/angularjs/angular.d.ts' />
 
 interface IWish{
+    _id: string;
     name: string;
     comment: string;
     url: string;

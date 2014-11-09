@@ -1,0 +1,27 @@
+{
+	"regex": {
+		"prefix": "(?:\\/\\*|\\/\\/|#|<!--) *@?(",
+		"suffix": "):? *(.*?) ?(?=\\*/|\\n|$|-->)"
+    },
+	"tags": [
+		"TODO",
+		"NOTE",
+		"FIX ?ME",
+		"CHANGES",
+		"FUTURE"
+	],
+	"case": false,
+	"search": {
+		"scope": "project",
+		"excludeFolders": [
+			"FrontEnd/bower_components",
+			"FrontEnd/scripts/typings",
+			"node_modules",
+			"obj"
+		],
+		"excludeFiles": []
+	},
+	"sort": {
+		"done": true
+	}
+}
