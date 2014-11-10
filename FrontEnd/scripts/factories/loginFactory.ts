@@ -1,4 +1,4 @@
-﻿interface ILoginResult {
+interface ILoginResult {
     token: string;
     user: IUser;
 }

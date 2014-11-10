@@ -21,8 +21,6 @@ interface INewUser extends IUser {
 }
 
 
-
-
 interface ILoginUser {
     email: string;
     password: string;
@@ -32,13 +30,12 @@ interface IBaseScope extends ng.IScope {
     loginFactory: loginFactory;
     message: string;
     welcome: string;
-    
 }
 
 class BaseController {
     private baseScope: IBaseScope;
     public loginFactory: loginFactory;
-
+    
     constructor($scope: IBaseScope,loginFactory :loginFactory) {
         this.baseScope = $scope;
         this.loginFactory = loginFactory;

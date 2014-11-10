@@ -1,5 +1,7 @@
-﻿/// <reference path='../typings/angularjs/angular.d.ts' />
+/// <reference path='../typings/angularjs/angular.d.ts' />
 /// <reference path='BaseController.ts' />
+/// <reference path='../factories/alertFactory.ts' />
+
 
 
 interface ILoginEvents {
@@ -27,11 +29,14 @@ class LoginCtrl extends BaseController {
     private $http: ng.IHttpService;
     private $window: ng.IWindowService;
     private $scope: ILoginScope;
-    constructor(loginFactory : loginFactory, $scope: ILoginScope, $http: ng.IHttpService, $window: ng.IWindowService) {
+    private alertFactory : alertFactory;
+    
+    constructor(loginFactory : loginFactory, alertFactory: alertFactory, $scope: ILoginScope, $http: ng.IHttpService, $window: ng.IWindowService) {
         super($scope,loginFactory);
         this.$scope = $scope;
         this.$http = $http;
         this.$window = $window;
+        this.alertFactory = alertFactory;
         $scope.loginUser = null;
         $scope.message = '';  
         $scope.events = this;
@@ -40,6 +45,7 @@ class LoginCtrl extends BaseController {
 
 
     public submit(): void {
+        this.alertFactory.addAlert(alertType.Danger,"TESTING");
         this.loginFactory.Login(this.$scope.loginUser);
     }
 

@@ -4,17 +4,19 @@
 /// <reference path='controllers/about.ts' />
 /// <reference path='controllers/login.ts' />
 /// <reference path='factories/authInterceptor.ts' />
+/// <reference path='factories/alertFactory.ts' />
 
 module christmasApp {
   'use strict';
 
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute'])
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute','ui.bootstrap'])
         .controller("MainCtrl", MainCtrl)
         .controller("AboutCtrl", AboutCtrl)
         .controller("LoginCtrl", LoginCtrl)
         .controller("HeaderController", HeaderController)
         .factory("loginFactory", ($http,$window,$location) => new loginFactory($http,$window,$location))
+        .factory("alertFactory", () => new alertFactory())
         .config(($routeProvider: ng.route.IRouteProvider, $httpProvider: ng.IHttpProvider) => {
             $routeProvider
                 .when('/', {

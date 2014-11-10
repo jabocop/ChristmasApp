@@ -6,9 +6,10 @@ var __extends = this.__extends || function (d, b) {
 };
 var HeaderController = (function (_super) {
     __extends(HeaderController, _super);
-    function HeaderController($scope, $location, loginFactory) {
+    function HeaderController($scope, $location, loginFactory, alertFactory) {
         _super.call(this, $scope, loginFactory);
         this.$scope = $scope;
+        this.$scope.alertFactory = alertFactory;
         this.$location = $location;
         this.$scope.isActive = function (viewLocation) {
             return viewLocation === $location.path();

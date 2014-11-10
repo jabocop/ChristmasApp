@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 	<head>
     	<meta charset="utf-8">
     	<title></title>
@@ -8,8 +8,8 @@
 	</head>
 	<body ng-app="ChristmasApp">
 	  	<div class="container">
-	    	<div class="header">
-	    	    <div class="navbar navbar-default" ng-controller="HeaderController">
+	    	<div class="header" ng-controller="HeaderController">
+	    	    <div class="navbar navbar-default">
                     <div class="container">
                         <div class="navbar-header">
                             <a class="navbar-brand" href="#">Christmas App</a>
@@ -23,11 +23,14 @@
                         <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.email}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>
                         <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">{{loginFactory.email}} | <a href="#/login">Log In</a></p>
                     </div>
+                    
+                    
                 </div>
+                <alert ng-repeat="alert in alertFactory.alerts" type="{{alert.type}}" close="alertFactory.closeAlert($index)">{{alert.msg}}</alert>
+                
                 
 	    	</div>
-
-	    	<div ng-view=""></div>
+            <div ng-view=""></div>
 
 	    	<div class="footer">
 	        	
@@ -38,8 +41,8 @@
     	<script src="bower_components/angular/angular.js"></script>
     	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     	<script src="bower_components/angular-route/angular-route.js"></script>
-    	
-	    <script src="scripts/controllers/BaseController.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    	<script src="scripts/controllers/BaseController.js"></script>
         <script src="scripts/controllers/HeaderController.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
@@ -48,6 +51,7 @@
         <script src="scripts/controllers/WishListController.js"></script>
         <script src="scripts/factories/loginFactory.js"></script>
         <script src="scripts/factories/authInterceptor.js"></script>
+        <script src="scripts/factories/alertFactory.js"></script>
 	    <script src="scripts/app.js"></script>
         
 	</body>

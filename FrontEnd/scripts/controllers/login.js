@@ -1,5 +1,6 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
 /// <reference path='BaseController.ts' />
+/// <reference path='../factories/alertFactory.ts' />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -9,16 +10,18 @@ var __extends = this.__extends || function (d, b) {
 
 var LoginCtrl = (function (_super) {
     __extends(LoginCtrl, _super);
-    function LoginCtrl(loginFactory, $scope, $http, $window) {
+    function LoginCtrl(loginFactory, alertFactory, $scope, $http, $window) {
         _super.call(this, $scope, loginFactory);
         this.$scope = $scope;
         this.$http = $http;
         this.$window = $window;
+        this.alertFactory = alertFactory;
         $scope.loginUser = null;
         $scope.message = '';
         $scope.events = this;
     }
     LoginCtrl.prototype.submit = function () {
+        this.alertFactory.addAlert(3 /* Danger */, "TESTING");
         this.loginFactory.Login(this.$scope.loginUser);
     };
 
