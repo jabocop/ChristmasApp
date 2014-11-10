@@ -5,3 +5,5 @@ gulp-tsc-tmp*
 .gulp-tsc-tmp*
 obj
 *.suo
+*.js.map
+*.tmp
