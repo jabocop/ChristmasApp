@@ -46,6 +46,8 @@ class LoginCtrl extends BaseController {
 
     public submit(): void {
         this.loginFactory.Login(this.$scope.loginUser);
+        this.$scope.loginUser = null;
+        
     }
 
     public callRestricted(): void {

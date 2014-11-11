@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="wish in wishes">
-            <td><a ng-click="events.selectWish(wish);">{{wish.name}}</a></td>
+            <td><a popover="{{wish.comment}}" popover-html="true" popover-title="{{wish.name}}" ng-click="events.selectWish(wish);">{{wish.name}}</a></td>
             <td><a href="{{wish.url}}">{{wish.url}}</a>
             </td>
             <td><a ng-click="events.editWish(wish);"><span class="glyphicon glyphicon-edit"></span></a>
@@ -19,19 +19,3 @@
     </tbody>
 </table>
 <a ng-click="events.addWish()">Add wish</a>
-<form role="form">
-    <div class="form-group">
-        <label class="control-label">Name</label>
-        <p class="form-control-static">{{selectedWish.name}}</p>
-        
-    </div>
-    <div class="form-group">
-        <label class="control-label">Comment</label>
-        <p class="form-control-static">{{selectedWish.comment}}</p>
-    </div>
-    <div class="form-group">
-        <label class="control-label">Url</label>
-        <p class="form-control-static">{{selectedWish.url}}</p>
-    </div>
-
-</form>

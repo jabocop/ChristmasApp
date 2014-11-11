@@ -21,7 +21,6 @@ var WishlistCtrl = (function (_super) {
 
         $scope.events = this;
         $scope.userId = $routeParams.userId;
-        this.$scope.selectedWish = null;
         this.getWishlist();
     }
     WishlistCtrl.prototype.getEmptyWish = function () {
@@ -36,7 +35,6 @@ var WishlistCtrl = (function (_super) {
 
     WishlistCtrl.prototype.getWishlist = function () {
         var _this = this;
-        this.$scope.selectedWish = null;
         if (this.$scope.userId !== undefined) {
             this.$http.get('/listWishes', { params: { userId: this.$scope.userId } }).success(function (data, status) {
                 _this.$scope.wishes = data;
@@ -83,10 +81,6 @@ var WishlistCtrl = (function (_super) {
         });
     };
 
-    WishlistCtrl.prototype.selectWish = function (wish) {
-        this.$scope.selectedWish = wish;
-    };
-
     WishlistCtrl.prototype.addWish = function () {
         this.openEditWishModal(this.getEmptyWish(), true);
     };
@@ -105,7 +99,29 @@ var WishlistCtrl = (function (_super) {
 
     WishlistCtrl.prototype.deleteWish = function (wish) {
         var _this = this;
-        //TODO: Are you sure.....
+        var options = {
+            templateUrl: 'views/yesNoModal.html',
+            controller: 'YesNoModalCtrl',
+            resolve: {
+                caption: function () {
+                    return "Delete wish";
+                },
+                text: function () {
+                    return "Are you sure yoy wish to delete the wish?";
+                },
+                data: function () {
+                    return wish;
+                }
+            }
+        };
+        var modal = this.$modal.open(options);
+        modal.result.then(function (data) {
+            _this.deleteWishConfirmed(wish);
+        });
+    };
+
+    WishlistCtrl.prototype.deleteWishConfirmed = function (wish) {
+        var _this = this;
         this.$http.post('deleteWish', wish).success(function (data, status) {
             //Succesful. Refresh the list.
             _this.getWishlist();

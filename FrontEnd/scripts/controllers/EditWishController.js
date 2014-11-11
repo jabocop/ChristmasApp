@@ -1,20 +1,22 @@
-/// <reference path='BaseController.ts' />
 /// <reference path='WishListController.ts' />
 /// <reference path='../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts' />
 
-var editMode;
-(function (editMode) {
-    editMode[editMode["None"] = 0] = "None";
-    editMode[editMode["NewItem"] = 1] = "NewItem";
-    editMode[editMode["EditItem"] = 2] = "EditItem";
-})(editMode || (editMode = {}));
+var editModeEnum;
+(function (editModeEnum) {
+    editModeEnum[editModeEnum["None"] = 0] = "None";
+    editModeEnum[editModeEnum["NewItem"] = 1] = "NewItem";
+    editModeEnum[editModeEnum["EditItem"] = 2] = "EditItem";
+})(editModeEnum || (editModeEnum = {}));
 
 var EditWishCtrl = (function () {
     function EditWishCtrl($scope, $modalInstance, editMode, wish) {
         this.$scope = $scope;
         this.$scope.events = this;
         this.$scope.editedWish = wish;
-        this.$scope.editMode = editMode;
+        this.$scope.isEditMode = false;
+        if (editMode == 2 /* EditItem */) {
+            this.$scope.isEditMode = true;
+        }
         this.$modalInstance = $modalInstance;
     }
     EditWishCtrl.prototype.onSave = function () {

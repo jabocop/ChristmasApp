@@ -5,16 +5,13 @@
 /// <reference path='../factories/alertFactory.ts' />
 
 interface IWishlistEvents {
-    selectWish : (wish : IWish) => void;
     addWish : () => void;
     editWish : (wish: IWish) => void;
     deleteWish : (wish : IWish) => void;
-    
 }
 
 interface IWishlistScope extends IBaseScope {
     userId: string;
-    selectedWish : IWish;
 	wishes : IWish[];
     events: IWishlistEvents;
 }
@@ -22,7 +19,6 @@ interface IWishlistScope extends IBaseScope {
 interface IWishlistParams {
     userId: string;
 }
-
 
 
 class WishlistCtrl extends BaseController implements IWishlistEvents {
@@ -40,7 +36,6 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         
         $scope.events = this;
         $scope.userId = $routeParams.userId;
-        this.$scope.selectedWish = null;
 		this.getWishlist();
 	}
     
@@ -55,7 +50,6 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
 	}
 
     private getWishlist() {
-        this.$scope.selectedWish = null;
         if (this.$scope.userId !== undefined) {
 			this.$http.get<IWish[]>('/listWishes', { params: { userId: this.$scope.userId } })
 				.success((data, status) => {
@@ -82,9 +76,9 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
     
     private openEditWishModal(wish : IWish, newWish : boolean) {
         
-        var mode = editMode.NewItem;
+        var mode = editModeEnum.NewItem;
         if (!newWish) {
-            mode = editMode.EditItem;
+            mode = editModeEnum.EditItem;
         }
         
         var options :ng.ui.bootstrap.IModalSettings = {
@@ -101,10 +95,6 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         });
     }
     
-    public selectWish(wish : IWish) {
-        this.$scope.selectedWish = wish;
-    }
-
     public addWish() {
         this.openEditWishModal(this.getEmptyWish(), true);
     }
@@ -120,7 +110,24 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
     }
     
     public deleteWish(wish : IWish) {
-        //TODO: Are you sure.....    
+        
+        var options :ng.ui.bootstrap.IModalSettings = {
+            templateUrl : 'views/yesNoModal.html',
+            controller : 'YesNoModalCtrl',
+            resolve : {
+                caption : () => {return "Delete wish"},
+                text: () => {return "Are you sure yoy wish to delete the wish?"},
+                data: () => {return wish}
+            }
+        }
+        var modal = this.$modal.open(options);
+        modal.result.then( (data :IWish) => {
+            this.deleteWishConfirmed(wish);
+        });
+        
+    }
+    
+    private deleteWishConfirmed(wish : IWish) {
         this.$http.post<any>('deleteWish', wish)
             .success((data, status) => {
                 //Succesful. Refresh the list.

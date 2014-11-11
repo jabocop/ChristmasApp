@@ -15,8 +15,12 @@ var loginFactory = (function () {
     }
     loginFactory.prototype.initUser = function (user) {
         this.isAuthenticated = true;
-        this.email = user.email;
         this.user = user;
+    };
+
+    loginFactory.prototype.clearSessionStorage = function () {
+        delete this.$window.sessionStorage.removeItem("token");
+        delete this.$window.sessionStorage.removeItem("user");
     };
 
     loginFactory.prototype.Login = function (user) {
@@ -28,9 +32,10 @@ var loginFactory = (function () {
             _this.$window.sessionStorage.setItem("token", data.token);
             _this.$window.sessionStorage.setItem("user", JSON.stringify(profile));
             _this.initUser(profile);
+            _this.$location.path('/');
         }).error(function (data, status, headers, config) {
             // Erase the token if the user fails to log in
-            delete _this.$window.sessionStorage.removeItem("token");
+            _this.clearSessionStorage();
 
             // Handle login errors here
             _this.alertFactory.addAlert(3 /* Danger */, "Invalid username or password");
@@ -38,9 +43,9 @@ var loginFactory = (function () {
     };
 
     loginFactory.prototype.Logout = function () {
-        delete this.$window.sessionStorage.removeItem("token");
+        this.clearSessionStorage();
         this.isAuthenticated = false;
-        this.email = null;
+        this.user = null;
     };
 
     loginFactory.prototype.NewUser = function (user) {

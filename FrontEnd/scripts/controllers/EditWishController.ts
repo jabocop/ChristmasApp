@@ -1,4 +1,3 @@
-/// <reference path='BaseController.ts' />
 /// <reference path='WishListController.ts' />
 /// <reference path='../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts' />
 
@@ -7,13 +6,14 @@ interface IEditWishEvents {
     onCancel : () => void;
 }
 
-interface IEditWishScope extends IBaseScope {
+interface IEditWishScope {
     editedWish : IWish;
 	events: IEditWishEvents;
-    editMode : editMode;
+    isEditMode : boolean;
+    
 }
 
-enum editMode {
+enum editModeEnum {
     None,
     NewItem,
     EditItem
@@ -25,11 +25,14 @@ class EditWishCtrl implements IEditWishEvents {
     private $scope: IEditWishScope;
     private $modalInstance : ng.ui.bootstrap.IModalServiceInstance;
     
-    constructor($scope: IEditWishScope, $modalInstance: ng.ui.bootstrap.IModalServiceInstance,  editMode: editMode, wish : IWish) {
+    constructor($scope: IEditWishScope, $modalInstance: ng.ui.bootstrap.IModalServiceInstance,  editMode: editModeEnum, wish : IWish) {
         this.$scope = $scope;
         this.$scope.events = this;
         this.$scope.editedWish = wish;
-        this.$scope.editMode = editMode;
+        this.$scope.isEditMode = false;        
+        if (editMode == editModeEnum.EditItem) {
+            this.$scope.isEditMode = true;
+        }
         this.$modalInstance = $modalInstance;
 	}
     

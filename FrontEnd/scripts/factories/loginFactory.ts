@@ -13,11 +13,7 @@ class loginFactory {
     private alertFactory : alertFactory;
     public isAuthenticated : boolean;
     public user: IUser;
-    //TODO: Can email be removed?
-    public email: string;
     
-
-
     
     constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:ng.ILocationService, alertFactory: alertFactory) {
         this.$http = $http;
@@ -34,8 +30,13 @@ class loginFactory {
 
     private initUser(user:IUser) {
         this.isAuthenticated = true;
-        this.email = user.email;
         this.user = user;
+    }
+    
+    private clearSessionStorage() {
+        delete this.$window.sessionStorage.removeItem("token");
+        delete this.$window.sessionStorage.removeItem("user");
+        
     }
     
     public Login(user : ILoginUser) : void {
@@ -49,11 +50,12 @@ class loginFactory {
                 this.$window.sessionStorage.setItem("token",data.token);
                 this.$window.sessionStorage.setItem("user",JSON.stringify(profile));
                 this.initUser(profile);
+                this.$location.path('/')
                 
             })
             .error((data, status, headers, config) =>  {
                 // Erase the token if the user fails to log in
-                delete this.$window.sessionStorage.removeItem("token");
+                this.clearSessionStorage();
 
                 // Handle login errors here
                 this.alertFactory.addAlert(alertType.Danger,"Invalid username or password");
@@ -61,9 +63,9 @@ class loginFactory {
     }
 
     public Logout(): void {
-        delete this.$window.sessionStorage.removeItem("token");
+        this.clearSessionStorage();
         this.isAuthenticated = false;
-        this.email = null;
+        this.user = null;
     }
 
     public NewUser(user:INewUser) : void {

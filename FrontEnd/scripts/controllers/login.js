@@ -22,6 +22,7 @@ var LoginCtrl = (function (_super) {
     }
     LoginCtrl.prototype.submit = function () {
         this.loginFactory.Login(this.$scope.loginUser);
+        this.$scope.loginUser = null;
     };
 
     LoginCtrl.prototype.callRestricted = function () {

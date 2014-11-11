@@ -155,8 +155,7 @@ app.post('/deleteWish', function (req, res) {
 });
 
 app.post('/saveWish', function (req, res) {
-    console.log('Call  to /editWish');
-    //TODO: use function to create wish
+    console.log('Call  to /saveWish');
     var wish = {
         name: req.body.name,
         comment: req.body.comment,
@@ -169,7 +168,7 @@ app.post('/saveWish', function (req, res) {
         upsert: true
     }, function (err) {
         if (!err) {
-            console.log('Wish edited');
+            console.log('Wish saved');
             res.json({
                 Wish: wish
             });

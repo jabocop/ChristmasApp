@@ -20,8 +20,8 @@
                             <li ng-class="{active:isActive('/wishlist')}"><a href="#/wishList/{{loginFactory.user._id}}">Wishlist</a></li>
                             
                         </ul>
-                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.email}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>
-                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">{{loginFactory.email}} | <a href="#/login">Log In</a></p>
+                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated">{{loginFactory.user.email}} | <a ng-click="loginFactory.Logout()">Log Out</a></p>
+                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">{{loginFactory.user.email}} | <a href="#/login">Log In</a></p>
                     </div>
                     
                     
@@ -50,6 +50,7 @@
         <script src="scripts/controllers/newUserController.js"></script>
         <script src="scripts/controllers/WishListController.js"></script>
         <script src="scripts/controllers/EditWishController.js"></script>
+        <script src="scripts/controllers/YesNoModalController.js"></script>
         <script src="scripts/factories/loginFactory.js"></script>
         <script src="scripts/factories/authInterceptor.js"></script>
         <script src="scripts/factories/alertFactory.js"></script>
