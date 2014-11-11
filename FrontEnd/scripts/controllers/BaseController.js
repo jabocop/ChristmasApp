@@ -1,4 +1,5 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
+/// <reference path='../factories/loginFactory.ts' />
 
 var BaseController = (function () {
     function BaseController($scope, loginFactory) {

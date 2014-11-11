@@ -1,4 +1,5 @@
 /// <reference path='alertFactory.ts' />
+/// <reference path='../typings/angularjs/angular.d.ts' />
 
 var loginFactory = (function () {
     function loginFactory($http, $window, $location, alertFactory) {
@@ -6,18 +7,27 @@ var loginFactory = (function () {
         this.$window = $window;
         this.$location = $location;
         this.alertFactory = alertFactory;
+        var loggedinUserStr = this.$window.sessionStorage.getItem("user");
+        if (loggedinUserStr !== null) {
+            //The browser is refreshed and the user needs to be refreshed from the sessionStorage
+            this.initUser(JSON.parse(loggedinUserStr));
+        }
     }
+    loginFactory.prototype.initUser = function (user) {
+        this.isAuthenticated = true;
+        this.email = user.email;
+        this.user = user;
+    };
+
     loginFactory.prototype.Login = function (user) {
         var _this = this;
         this.$http.post('/authenticate', user).success(function (data, status, headers, config) {
-            _this.$window.sessionStorage.setItem("token", data.token);
-            _this.isAuthenticated = true;
             var encodedProfile = data.token.split('.')[1];
             var urlEnoder = new urlDecoder();
             var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
-            _this.alertFactory.addAlert(0 /* Success */, "User logged in successfully");
-            _this.email = user.email;
-            _this.user = data.user;
+            _this.$window.sessionStorage.setItem("token", data.token);
+            _this.$window.sessionStorage.setItem("user", JSON.stringify(profile));
+            _this.initUser(profile);
         }).error(function (data, status, headers, config) {
             // Erase the token if the user fails to log in
             delete _this.$window.sessionStorage.removeItem("token");

@@ -53,65 +53,73 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', express.static(path.join(__dirname, '../FrontEnd')));
 
-app.use(function(err, req, res, next){
-  if (err.constructor.name === 'UnauthorizedError') {
-    res.status(401).send('Unauthorized');
-  }
+app.use(function (err, req, res, next) {
+    if (err.constructor.name === 'UnauthorizedError') {
+        res.status(401).send('Unauthorized');
+    }
 });
 
 app.post('/authenticate', function (req, res) {
-  console.log('Call to /autheticate');
-  //if is invalid, return 401
-  console.log('Loggining in user: ' + req.body.email);
-  User.findOne({email:req.body.email}, function(err,user) {
-      var userFound = true;
-      if (err) {
-        console.log(err);
-        userFound = false;
-      } 
-      if (!user) {
-        console.log('Cant find user');
-        userFound = false;
-      } else {
-          console.log('User' + user);
-      
-        if (user.password !== req.body.password) {
-            console.log('Wrong password');
+    console.log('Call to /autheticate');
+    //if is invalid, return 401
+    console.log('Loggining in user: ' + req.body.email);
+    User.findOne({
+        email: req.body.email
+    }, function (err, user) {
+        var userFound = true;
+        if (err) {
+            console.log(err);
             userFound = false;
         }
-      }
+        if (!user) {
+            console.log('Cant find user');
+            userFound = false;
+        } else {
+            console.log('User' + user);
 
-      if (userFound) {
-        // We are sending the profile inside the token
-        var token = jwt.sign(user, secret, { expiresInMinutes: 60*5 });
-      
-        res.json({ token: token, user:user });
-      } else {
-          res.status(401).send('Unauthorized');
-      }
-      
-  });
+            if (user.password !== req.body.password) {
+                console.log('Wrong password');
+                userFound = false;
+            }
+        }
+
+        if (userFound) {
+            // We are sending the profile inside the token
+            var token = jwt.sign(user, secret, {
+                expiresInMinutes: 60 * 5
+            });
+            res.json({
+                token: token,
+                user: user
+            });
+        } else {
+            res.status(401).send('Unauthorized');
+        }
+
+    });
 
 });
 
 app.post('/newUser', function (req, res) {
-  console.log('Call to /newUser');
-  User.create({
-      email : req.body.email,
-      firstname: req.body.firstName,
-      lastname: req.body.lastName,
-      password : req.body.password
-    },function (err,user) {
-      if (err) {
-        console.log("Failed to create user" + err);
-      } else {
-          console.log('User created. User:' + user);
-          res.json({ User: user });
-      }
+    console.log('Call to /newUser');
+    User.create({
+        email: req.body.email,
+        firstname: req.body.firstName,
+        lastname: req.body.lastName,
+        password: req.body.password
+    }, function (err, user) {
+        if (err) {
+            console.log("Failed to create user" + err);
+        } else {
+            console.log('User created. User:' + user);
+            res.json({
+                User: user
+            });
+        }
     });
 });
 
-app.post('/newWish', function(req, res) {
+app.post('/newWish', function (req, res) {
     console.log('Call to /newWish');
     var wish = {
         name: req.body.name,
@@ -124,14 +132,18 @@ app.post('/newWish', function(req, res) {
             console.log("Failed to create wish" + err);
         } else {
             console.log('Wish created. Wish:' + wish);
-            res.json({ Wish: wish });
+            res.json({
+                Wish: wish
+            });
         }
     });
 });
 
-app.post('/deleteWish', function(req, res) {
-    console.log('Call to /deleteWish with id: ' + req.body._id );
-    Wish.remove({_id : req.body._id }, function(err) {
+app.post('/deleteWish', function (req, res) {
+    console.log('Call to /deleteWish with id: ' + req.body._id);
+    Wish.remove({
+        _id: req.body._id
+    }, function (err) {
         if (!err) {
             console.log('Wish removed');
             //return empty
@@ -142,19 +154,25 @@ app.post('/deleteWish', function(req, res) {
     });
 });
 
-app.post('/saveWish', function(req,res) {
+app.post('/saveWish', function (req, res) {
     console.log('Call  to /editWish');
     //TODO: use function to create wish
-    var wish ={
+    var wish = {
         name: req.body.name,
         comment: req.body.comment,
         url: req.body.url,
         userId: req.body.userId
     };
-    Wish.update({_id: req.body._id },wish,{upsert : true}, function(err) {
+    Wish.update({
+        _id: req.body._id
+    }, wish, {
+        upsert: true
+    }, function (err) {
         if (!err) {
             console.log('Wish edited');
-            res.json({ Wish: wish });
+            res.json({
+                Wish: wish
+            });
         } else {
             console.log("Error occured. Message : " + err);
         }
@@ -162,10 +180,12 @@ app.post('/saveWish', function(req,res) {
 });
 
 
-app.get('/listWishes', function(req, res) {
+app.get('/listWishes', function (req, res) {
     console.log('Call to /listWishes');
     console.log('UserId:' + req.param('userId'));
-    Wish.find({ userId: req.param('userId')}, function(err, wishes) {
+    Wish.find({
+        userId: req.param('userId')
+    }, function (err, wishes) {
         if (!err) {
             console.log(wishes);
             res.json(wishes);
@@ -178,18 +198,18 @@ app.get('/listWishes', function(req, res) {
 
 
 app.get('/api/restricted', function (req, res) {
-  console.log('Call to /restricted');
-  console.log('user ' + req.user.email + ' is calling /api/restricted');
-  res.json({
-    name: 'foo'
-  });
+    console.log('Call to /restricted');
+    console.log('user ' + req.user.email + ' is calling /api/restricted');
+    res.json({
+        name: 'foo'
+    });
 });
 
-app.get('/', function(req, res) {
-		console.log('Call to *');
-    res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html'));		// load the single view file (angular will handle the page changes on the front-end)
-	});
+app.get('/', function (req, res) {
+    console.log('Call to *');
+    res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html')); // load the single view file (angular will handle the page changes on the front-end)
+});
 
 app.listen(8080, function () {
-  console.log('listening on http://localhost:8080');
+    console.log('listening on http://localhost:8080');
 });

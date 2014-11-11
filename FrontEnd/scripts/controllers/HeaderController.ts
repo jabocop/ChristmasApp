@@ -1,4 +1,6 @@
-
+/// <reference path='BaseController.ts' />
+/// <reference path='../factories/alertFactory.ts' />
+/// <reference path='../factories/loginFactory.ts' />
 
 interface IHeaderScope extends IBaseScope {
     isActive: (viewLocation: string) => boolean;

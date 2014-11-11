@@ -1,4 +1,5 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
+/// <reference path='../factories/loginFactory.ts' />
 
 interface IWish{
     _id: string;

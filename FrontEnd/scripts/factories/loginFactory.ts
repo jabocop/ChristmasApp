@@ -1,4 +1,6 @@
 /// <reference path='alertFactory.ts' />
+/// <reference path='../typings/angularjs/angular.d.ts' />
+
 interface ILoginResult {
     token: string;
     user: IUser;
@@ -11,6 +13,7 @@ class loginFactory {
     private alertFactory : alertFactory;
     public isAuthenticated : boolean;
     public user: IUser;
+    //TODO: Can email be removed?
     public email: string;
     
 
@@ -21,21 +24,32 @@ class loginFactory {
         this.$window = $window;
         this.$location = $location;
         this.alertFactory = alertFactory;
+        var loggedinUserStr = this.$window.sessionStorage.getItem("user");
+        if (loggedinUserStr !== null) {
+            //The browser is refreshed and the user needs to be refreshed from the sessionStorage
+            this.initUser(JSON.parse(loggedinUserStr));
+        }
     }
 
 
+    private initUser(user:IUser) {
+        this.isAuthenticated = true;
+        this.email = user.email;
+        this.user = user;
+    }
+    
     public Login(user : ILoginUser) : void {
         this.$http
             .post<ILoginResult>('/authenticate', user)
             .success((data, status, headers, config) =>  {
-                this.$window.sessionStorage.setItem("token",data.token);
-                this.isAuthenticated = true;
+                
                 var encodedProfile = data.token.split('.')[1];
                 var urlEnoder = new urlDecoder();
-                var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
-                this.alertFactory.addAlert(alertType.Success,"User logged in successfully");
-                this.email = user.email;
-                this.user = data.user;
+                var profile :IUser =JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
+                this.$window.sessionStorage.setItem("token",data.token);
+                this.$window.sessionStorage.setItem("user",JSON.stringify(profile));
+                this.initUser(profile);
+                
             })
             .error((data, status, headers, config) =>  {
                 // Erase the token if the user fails to log in

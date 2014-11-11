@@ -3,6 +3,8 @@
 /// <reference path='controllers/main.ts' />
 /// <reference path='controllers/about.ts' />
 /// <reference path='controllers/login.ts' />
+/// <reference path='controllers/HeaderController.ts' />
+/// <reference path='controllers/WishlistController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
 /// <reference path='factories/alertFactory.ts' />
 var christmasApp;
