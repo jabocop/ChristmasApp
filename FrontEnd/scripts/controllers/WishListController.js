@@ -1,6 +1,8 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
 /// <reference path='BaseController.ts' />
+/// <reference path='EditWishController.ts' />
 /// <reference path='../factories/loginFactory.ts' />
+/// <reference path='../factories/alertFactory.ts' />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -8,23 +10,18 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 
-var editMode;
-(function (editMode) {
-    editMode[editMode["None"] = 0] = "None";
-    editMode[editMode["NewItem"] = 1] = "NewItem";
-    editMode[editMode["EditItem"] = 2] = "EditItem";
-})(editMode || (editMode = {}));
-
 var WishlistCtrl = (function (_super) {
     __extends(WishlistCtrl, _super);
-    function WishlistCtrl($scope, $routeParams, $http, loginFactory) {
+    function WishlistCtrl($scope, $routeParams, $http, loginFactory, alertFactory, $modal) {
         _super.call(this, $scope, loginFactory);
         this.$scope = $scope;
         this.$http = $http;
+        this.$modal = $modal;
+        this.alertFactory = alertFactory;
+
         $scope.events = this;
         $scope.userId = $routeParams.userId;
-        this.$scope.editedWish = null;
-        this.$scope.editMode = 0 /* None */;
+        this.$scope.selectedWish = null;
         this.getWishlist();
     }
     WishlistCtrl.prototype.getEmptyWish = function () {
@@ -39,38 +36,59 @@ var WishlistCtrl = (function (_super) {
 
     WishlistCtrl.prototype.getWishlist = function () {
         var _this = this;
-        this.$scope.editedWish = null;
-        this.$scope.editMode = 0 /* None */;
+        this.$scope.selectedWish = null;
         if (this.$scope.userId !== undefined) {
             this.$http.get('/listWishes', { params: { userId: this.$scope.userId } }).success(function (data, status) {
                 _this.$scope.wishes = data;
             }).error(function (data, status) {
-                alert("Fail!");
+                _this.alertFactory.addAlert(3 /* Danger */, "Failed to list wishes");
             });
         }
     };
 
-    WishlistCtrl.prototype.saveWish = function () {
+    WishlistCtrl.prototype.saveWish = function (wish) {
         var _this = this;
-        var functionToCall = null;
+        var functionToCall = 'saveWish';
 
-        if (this.$scope.editMode !== 0 /* None */) {
-            functionToCall = 'saveWish';
+        this.$http.post(functionToCall, wish).success(function (data, status) {
+            //Succesful. Refresh the list.
+            _this.getWishlist();
+        }).error(function (data, status) {
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to save wish");
+        });
+    };
+
+    WishlistCtrl.prototype.openEditWishModal = function (wish, newWish) {
+        var _this = this;
+        var mode = 1 /* NewItem */;
+        if (!newWish) {
+            mode = 2 /* EditItem */;
         }
 
-        if (functionToCall !== null) {
-            this.$http.post(functionToCall, this.$scope.editedWish).success(function (data, status) {
-                //Succesful. Refresh the list.
-                _this.getWishlist();
-            }).error(function (data, status) {
-                alert("Failed to save wish");
-            });
-        }
+        var options = {
+            templateUrl: 'views/editWishModal.html',
+            controller: 'EditWishCtrl',
+            resolve: {
+                editMode: function () {
+                    return mode;
+                },
+                wish: function () {
+                    return wish;
+                }
+            }
+        };
+        var modal = this.$modal.open(options);
+        modal.result.then(function (wish) {
+            _this.saveWish(wish);
+        });
+    };
+
+    WishlistCtrl.prototype.selectWish = function (wish) {
+        this.$scope.selectedWish = wish;
     };
 
     WishlistCtrl.prototype.addWish = function () {
-        this.$scope.editedWish = this.getEmptyWish();
-        this.$scope.editMode = 1 /* NewItem */;
+        this.openEditWishModal(this.getEmptyWish(), true);
     };
 
     WishlistCtrl.prototype.editWish = function (wish) {
@@ -79,10 +97,10 @@ var WishlistCtrl = (function (_super) {
             return itm._id == wish._id;
         });
         if (filteredWishes.length != 1) {
-            alert("Can't find the wish");
+            this.alertFactory.addAlert(3 /* Danger */, "Can't find the selected wish in the database");
         }
-        this.$scope.editedWish = filteredWishes[0];
-        this.$scope.editMode = 2 /* EditItem */;
+        var wishCopy = angular.copy(filteredWishes[0]);
+        this.openEditWishModal(wishCopy, false);
     };
 
     WishlistCtrl.prototype.deleteWish = function (wish) {
@@ -92,7 +110,7 @@ var WishlistCtrl = (function (_super) {
             //Succesful. Refresh the list.
             _this.getWishlist();
         }).error(function (data, status) {
-            alert("Failed to delete wish");
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to delete wish");
         });
     };
     return WishlistCtrl;

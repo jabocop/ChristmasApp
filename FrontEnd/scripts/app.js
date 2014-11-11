@@ -9,7 +9,7 @@ var christmasApp;
 (function (christmasApp) {
     'use strict';
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("HeaderController", HeaderController).factory("alertFactory", function () {
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("EditWishCtrl", EditWishCtrl).factory("alertFactory", function () {
         return new alertFactory();
     }).factory("loginFactory", function ($http, $window, $location, alertFactory) {
         return new loginFactory($http, $window, $location, alertFactory);

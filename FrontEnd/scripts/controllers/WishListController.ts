@@ -1,51 +1,47 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
 /// <reference path='BaseController.ts' />
+/// <reference path='EditWishController.ts' />
 /// <reference path='../factories/loginFactory.ts' />
 /// <reference path='../factories/alertFactory.ts' />
 
 interface IWishlistEvents {
+    selectWish : (wish : IWish) => void;
     addWish : () => void;
-    saveWish : () => void;
     editWish : (wish: IWish) => void;
     deleteWish : (wish : IWish) => void;
     
 }
 
 interface IWishlistScope extends IBaseScope {
-    
     userId: string;
-    editedWish : IWish;
+    selectedWish : IWish;
 	wishes : IWish[];
     events: IWishlistEvents;
-    editMode : editMode;
 }
 
 interface IWishlistParams {
     userId: string;
 }
 
-enum editMode {
-    None,
-    NewItem,
-    EditItem
-}
 
 
 class WishlistCtrl extends BaseController implements IWishlistEvents {
     private $scope: IWishlistScope;
     private $http: ng.IHttpService;
-    private alertFactor : alertFactory;
+    private alertFactory : alertFactory;
+    private $modal : ng.ui.bootstrap.IModalService;
 
-    constructor($scope: IWishlistScope, $routeParams: IWishlistParams, $http: ng.IHttpService, loginFactory: loginFactory,alertFactory : alertFactory) {
+    constructor($scope: IWishlistScope, $routeParams: IWishlistParams, $http: ng.IHttpService, loginFactory: loginFactory,alertFactory : alertFactory,$modal : ng.ui.bootstrap.IModalService) {
         super($scope, loginFactory);
         this.$scope = $scope;
         this.$http = $http;
+        this.$modal = $modal;
+        this.alertFactory = alertFactory;
+        
         $scope.events = this;
         $scope.userId = $routeParams.userId;
-        this.$scope.editedWish = null;
-        this.$scope.editMode = editMode.None;
+        this.$scope.selectedWish = null;
 		this.getWishlist();
-        this.alertFactor = alertFactory;
 	}
     
 	private getEmptyWish() : IWish {
@@ -59,8 +55,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
 	}
 
     private getWishlist() {
-        this.$scope.editedWish = null;
-        this.$scope.editMode = editMode.None
+        this.$scope.selectedWish = null;
         if (this.$scope.userId !== undefined) {
 			this.$http.get<IWish[]>('/listWishes', { params: { userId: this.$scope.userId } })
 				.success((data, status) => {
@@ -72,28 +67,46 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
 		}
     }
 
-    public saveWish() {
-        var functionToCall : string = null;
+    private saveWish(wish : IWish) {
+        var functionToCall : string = 'saveWish';
         
-        if (this.$scope.editMode !== editMode.None) {
-            functionToCall = 'saveWish';
-        } 
-        
-        if (functionToCall !== null) {
-            this.$http.post<any>(functionToCall, this.$scope.editedWish)
-                .success((data, status) => {
-                    //Succesful. Refresh the list.
-                    this.getWishlist();
-                })
-                .error((data, status) => {
-                    this.alertFactory.addAlert(alertType.Danger,"Failed to save wishes");
-                });
-        }
+        this.$http.post<any>(functionToCall, wish)
+            .success((data, status) => {
+                //Succesful. Refresh the list.
+                this.getWishlist();
+            })
+            .error((data, status) => {
+                this.alertFactory.addAlert(alertType.Danger,"Failed to save wish");
+            });
     }
     
+    private openEditWishModal(wish : IWish, newWish : boolean) {
+        
+        var mode = editMode.NewItem;
+        if (!newWish) {
+            mode = editMode.EditItem;
+        }
+        
+        var options :ng.ui.bootstrap.IModalSettings = {
+            templateUrl : 'views/editWishModal.html',
+            controller : 'EditWishCtrl',
+            resolve : {
+                editMode : () => {return mode},
+                wish: () => {return wish}
+            }
+        }
+        var modal = this.$modal.open(options);
+        modal.result.then( (wish :IWish) => {
+            this.saveWish(wish);
+        });
+    }
+    
+    public selectWish(wish : IWish) {
+        this.$scope.selectedWish = wish;
+    }
+
     public addWish() {
-        this.$scope.editedWish = this.getEmptyWish();
-        this.$scope.editMode = editMode.NewItem;
+        this.openEditWishModal(this.getEmptyWish(), true);
     }
     
     public editWish(wish : IWish) {
@@ -102,8 +115,8 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         if (filteredWishes.length != 1) {
             this.alertFactory.addAlert(alertType.Danger,"Can't find the selected wish in the database");
         }
-        this.$scope.editedWish  = filteredWishes[0];
-        this.$scope.editMode = editMode.EditItem;
+        var wishCopy = angular.copy(filteredWishes[0]);
+        this.openEditWishModal(wishCopy,false);
     }
     
     public deleteWish(wish : IWish) {
@@ -116,8 +129,6 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
             .error((data, status) => {
                 this.alertFactory.addAlert(alertType.Danger,"Failed to delete wish");
             });
-        
-        
     }
 
 }

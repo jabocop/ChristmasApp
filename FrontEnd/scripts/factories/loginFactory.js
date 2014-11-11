@@ -39,7 +39,7 @@ var loginFactory = (function () {
             _this.alertFactory.addAlert(0 /* Success */, "User is created");
             _this.$location.path('/login');
         }).error(function (data, status, headers, config) {
-            _this.alertFactory.addAlert(3 /* Danger */, "Failed to register new user");
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to register new userq");
         });
     };
     return loginFactory;

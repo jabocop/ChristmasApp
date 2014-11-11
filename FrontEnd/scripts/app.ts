@@ -15,6 +15,8 @@ module christmasApp {
         .controller("AboutCtrl", AboutCtrl)
         .controller("LoginCtrl", LoginCtrl)
         .controller("HeaderController", HeaderController)
+        .controller("WishlistCtrl", WishlistCtrl)
+        .controller("EditWishCtrl",EditWishCtrl)
         .factory("alertFactory", () => new alertFactory())
         .factory("loginFactory", ($http,$window,$location,alertFactory) => new loginFactory($http,$window,$location,alertFactory))
         

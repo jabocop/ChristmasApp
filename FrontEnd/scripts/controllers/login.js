@@ -21,7 +21,6 @@ var LoginCtrl = (function (_super) {
         $scope.events = this;
     }
     LoginCtrl.prototype.submit = function () {
-        this.alertFactory.addAlert(3 /* Danger */, "TESTING");
         this.loginFactory.Login(this.$scope.loginUser);
     };
 
@@ -30,7 +29,7 @@ var LoginCtrl = (function (_super) {
         this.$http({ url: '/api/restricted', method: 'GET' }).success(function (data, status, headers, config) {
             _this.$scope.message = _this.$scope.message + ' ' + data.name; // Should log 'foo'
         }).error(function (data, status, headers, config) {
-            alert(data);
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to call restricted area");
         });
     };
     return LoginCtrl;
