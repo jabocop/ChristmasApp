@@ -1,8 +1,11 @@
+/// <reference path='alertFactory.ts' />
+
 var loginFactory = (function () {
-    function loginFactory($http, $window, $location) {
+    function loginFactory($http, $window, $location, alertFactory) {
         this.$http = $http;
         this.$window = $window;
         this.$location = $location;
+        this.alertFactory = alertFactory;
     }
     loginFactory.prototype.Login = function (user) {
         var _this = this;
@@ -12,9 +15,7 @@ var loginFactory = (function () {
             var encodedProfile = data.token.split('.')[1];
             var urlEnoder = new urlDecoder();
             var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
-
-            //this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
-            alert("Success" + user.email);
+            _this.alertFactory.addAlert(0 /* Success */, "User logged in successfully");
             _this.email = user.email;
             _this.user = data.user;
         }).error(function (data, status, headers, config) {
@@ -22,8 +23,7 @@ var loginFactory = (function () {
             delete _this.$window.sessionStorage.removeItem("token");
 
             // Handle login errors here
-            alert("Fail!");
-            //this.$scope.message = 'Error: Invalid user or password';
+            _this.alertFactory.addAlert(3 /* Danger */, "Invalid username or password");
         });
     };
 
@@ -36,10 +36,10 @@ var loginFactory = (function () {
     loginFactory.prototype.NewUser = function (user) {
         var _this = this;
         this.$http.post('/newUser', user).success(function (data, status, headers, config) {
-            alert("New user registered succesfully");
+            _this.alertFactory.addAlert(0 /* Success */, "User is created");
             _this.$location.path('/login');
         }).error(function (data, status, headers, config) {
-            alert("Failed to register user");
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to register new user");
         });
     };
     return loginFactory;

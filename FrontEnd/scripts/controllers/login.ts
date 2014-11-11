@@ -45,7 +45,6 @@ class LoginCtrl extends BaseController {
 
 
     public submit(): void {
-        this.alertFactory.addAlert(alertType.Danger,"TESTING");
         this.loginFactory.Login(this.$scope.loginUser);
     }
 
@@ -55,7 +54,7 @@ class LoginCtrl extends BaseController {
                 this.$scope.message = this.$scope.message + ' ' + data.name; // Should log 'foo'
             })
             .error((data, status, headers, config) => {
-                alert(data);
+                this.alertFactory.addAlert(alertType.Danger,"Failed to call restricted area");
             });
     }
 

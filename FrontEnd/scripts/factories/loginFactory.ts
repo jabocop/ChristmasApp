@@ -1,3 +1,4 @@
+/// <reference path='alertFactory.ts' />
 interface ILoginResult {
     token: string;
     user: IUser;
@@ -7,6 +8,7 @@ class loginFactory {
     private $http : ng.IHttpService;
     private $window : ng.IWindowService;
     private $location : ng.ILocationService;
+    private alertFactory : alertFactory;
     public isAuthenticated : boolean;
     public user: IUser;
     public email: string;
@@ -14,10 +16,11 @@ class loginFactory {
 
 
     
-    constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:ng.ILocationService) {
+    constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:ng.ILocationService, alertFactory: alertFactory) {
         this.$http = $http;
         this.$window = $window;
         this.$location = $location;
+        this.alertFactory = alertFactory;
     }
 
 
@@ -30,8 +33,7 @@ class loginFactory {
                 var encodedProfile = data.token.split('.')[1];
                 var urlEnoder = new urlDecoder();
                 var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
-                //this.$scope.welcome = 'Welcome ' + profile.first_name + ' ' + profile.last_name;
-                alert("Success" + user.email);
+                this.alertFactory.addAlert(alertType.Success,"User logged in successfully");
                 this.email = user.email;
                 this.user = data.user;
             })
@@ -40,8 +42,7 @@ class loginFactory {
                 delete this.$window.sessionStorage.removeItem("token");
 
                 // Handle login errors here
-                alert("Fail!");
-                //this.$scope.message = 'Error: Invalid user or password';
+                this.alertFactory.addAlert(alertType.Danger,"Invalid username or password");
             }); 
     }
 
@@ -55,11 +56,11 @@ class loginFactory {
         this.$http
             .post<IUser>('/newUser',user)
             .success((data, status, headers,config) => {
-                alert("New user registered succesfully");
+                this.alertFactory.addAlert(alertType.Success,"User is created");
                 this.$location.path('/login')
             }) 
             .error((data,status,headers,config)=> {
-                alert("Failed to register user")
+                this.alertFactory.addAlert(alertType.Danger,"Failed to register new userq");
             });
     }
 

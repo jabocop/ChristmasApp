@@ -1,6 +1,7 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
 /// <reference path='BaseController.ts' />
 /// <reference path='../factories/loginFactory.ts' />
+/// <reference path='../factories/alertFactory.ts' />
 
 interface IWishlistEvents {
     addWish : () => void;
@@ -33,8 +34,9 @@ enum editMode {
 class WishlistCtrl extends BaseController implements IWishlistEvents {
     private $scope: IWishlistScope;
     private $http: ng.IHttpService;
+    private alertFactor : alertFactory;
 
-    constructor($scope: IWishlistScope, $routeParams: IWishlistParams, $http: ng.IHttpService, loginFactory: loginFactory) {
+    constructor($scope: IWishlistScope, $routeParams: IWishlistParams, $http: ng.IHttpService, loginFactory: loginFactory,alertFactory : alertFactory) {
         super($scope, loginFactory);
         this.$scope = $scope;
         this.$http = $http;
@@ -43,6 +45,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         this.$scope.editedWish = null;
         this.$scope.editMode = editMode.None;
 		this.getWishlist();
+        this.alertFactor = alertFactory;
 	}
     
 	private getEmptyWish() : IWish {
@@ -64,7 +67,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
 					this.$scope.wishes = data;
 				})
 				.error((data, status) => {
-					alert("Fail!");
+					this.alertFactory.addAlert(alertType.Danger,"Failed to list wishes");
 				});
 		}
     }
@@ -83,7 +86,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
                     this.getWishlist();
                 })
                 .error((data, status) => {
-                    alert("Failed to save wish");
+                    this.alertFactory.addAlert(alertType.Danger,"Failed to save wishes");
                 });
         }
     }
@@ -97,7 +100,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         //Find the wish in the array
         var filteredWishes = $.grep(this.$scope.wishes, (itm:IWish ) => { return itm._id == wish._id; });
         if (filteredWishes.length != 1) {
-            alert("Can't find the wish");
+            this.alertFactory.addAlert(alertType.Danger,"Can't find the selected wish in the database");
         }
         this.$scope.editedWish  = filteredWishes[0];
         this.$scope.editMode = editMode.EditItem;
@@ -111,7 +114,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
                 this.getWishlist();
             })
             .error((data, status) => {
-                alert("Failed to delete wish");
+                this.alertFactory.addAlert(alertType.Danger,"Failed to delete wish");
             });
         
         

@@ -15,8 +15,9 @@ module christmasApp {
         .controller("AboutCtrl", AboutCtrl)
         .controller("LoginCtrl", LoginCtrl)
         .controller("HeaderController", HeaderController)
-        .factory("loginFactory", ($http,$window,$location) => new loginFactory($http,$window,$location))
         .factory("alertFactory", () => new alertFactory())
+        .factory("loginFactory", ($http,$window,$location,alertFactory) => new loginFactory($http,$window,$location,alertFactory))
+        
         .config(($routeProvider: ng.route.IRouteProvider, $httpProvider: ng.IHttpProvider) => {
             $routeProvider
                 .when('/', {
