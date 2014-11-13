@@ -1,12 +1,7 @@
 /// <reference path='WishListController.ts' />
 /// <reference path='../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts' />
-
-var editModeEnum;
-(function (editModeEnum) {
-    editModeEnum[editModeEnum["None"] = 0] = "None";
-    editModeEnum[editModeEnum["NewItem"] = 1] = "NewItem";
-    editModeEnum[editModeEnum["EditItem"] = 2] = "EditItem";
-})(editModeEnum || (editModeEnum = {}));
+/// <reference path='../Enums.ts' />
+/// <reference path='../interfaces/objectDefinitions.d.ts' />
 
 var EditWishCtrl = (function () {
     function EditWishCtrl($scope, $modalInstance, editMode, wish) {

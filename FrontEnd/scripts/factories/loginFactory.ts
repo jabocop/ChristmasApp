@@ -1,5 +1,6 @@
 /// <reference path='alertFactory.ts' />
 /// <reference path='../typings/angularjs/angular.d.ts' />
+/// <reference path='../interfaces/objectDefinitions.d.ts' />
 
 interface ILoginResult {
     token: string;

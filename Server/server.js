@@ -9,6 +9,7 @@ mongoose.connect("localhost:27017/ChristmasApp");
 
 var User = require('./Models/User');
 var Wish = require('./Models/Wish');
+var Group = require('./Models/Group');
 
 var secret = 'this is the secret secret secret 12356';
 
@@ -194,6 +195,54 @@ app.get('/listWishes', function (req, res) {
     });
 });
 
+app.post('/addGroup', function (req, res) {
+    console.log('Call to /addGroup');
+    var group = {
+        name: req.body.group.name,
+        users: [req.body.userId],
+        admins: [req.body.userId]
+    };
+    Group.create(group, function (err,group) {
+        if (!err) {
+            console.log('Group added');
+            res.json({
+                Group: group
+            });
+        } else {
+            console.log("Error occured. Message : " + err);
+        }
+    });
+});
+
+app.post('/addUserToGroup', function (req, res) {
+    console.log('Call to /addUserToGroup');
+    Group.findOne({_id: req.body._id},function(err,group) {
+        if (!err && group !== null) {
+            group.users.push(req.body.userId);
+        } else {
+            if (err) {
+                console.log("Error occured. Message : " + err);
+            } else {
+                console.log("Can't find group");
+            }
+        }
+    });
+});
+
+app.get('/listGroupsByUser', function (req, res) {
+    console.log('Call to /listGroupsByUser');
+    console.log('UserId:' + req.param('userId'));
+    Group.find({
+        users: req.param('userId')
+    }, function (err, groups) {
+        if (!err) {
+            console.log(groups);
+            res.json(groups);
+        } else {
+            console.log("Error occured. Message : " + err);
+        }
+    });
+});
 
 
 app.get('/api/restricted', function (req, res) {

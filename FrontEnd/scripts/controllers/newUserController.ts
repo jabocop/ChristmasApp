@@ -1,6 +1,8 @@
 /// <reference path='../typings/angularjs/angular.d.ts' />
 /// <reference path='BaseController.ts' />
 /// <reference path='../factories/loginFactory.ts' />
+/// <reference path='../interfaces/objectDefinitions.d.ts' />
+
 
 interface INewUserEvents {
     submit: () => void;

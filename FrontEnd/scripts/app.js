@@ -5,13 +5,16 @@
 /// <reference path='controllers/login.ts' />
 /// <reference path='controllers/HeaderController.ts' />
 /// <reference path='controllers/WishlistController.ts' />
+/// <reference path='controllers/GrouplistController.ts' />
+/// <reference path='controllers/EditGroupController.ts' />
+/// <reference path='controllers/YesNoModalController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
 /// <reference path='factories/alertFactory.ts' />
 var christmasApp;
 (function (christmasApp) {
     'use strict';
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("EditWishCtrl", EditWishCtrl).controller("YesNoModalCtrl", YesNoModalCtrl).factory("alertFactory", function () {
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("GrouplistCtrl", GrouplistCtrl).controller("EditWishCtrl", EditWishCtrl).controller("EditGroupCtrl", EditGroupCtrl).controller("YesNoModalCtrl", YesNoModalCtrl).factory("alertFactory", function () {
         return new alertFactory();
     }).factory("loginFactory", function ($http, $window, $location, alertFactory) {
         return new loginFactory($http, $window, $location, alertFactory);
@@ -31,6 +34,9 @@ var christmasApp;
         }).when('/wishList/:userId', {
             templateUrl: 'views/wishList.html',
             controller: 'WishlistCtrl'
+        }).when('/groupList', {
+            templateUrl: 'views/groupList.html',
+            controller: 'GrouplistCtrl'
         }).otherwise({
             redirectTo: '/'
         });

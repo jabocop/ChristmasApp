@@ -1,30 +1,27 @@
-/// <reference path='WishListController.ts' />
-/// <reference path='../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts' />
-/// <reference path='../Enums.ts' />
 /// <reference path='../interfaces/objectDefinitions.d.ts' />
+/// <reference path='../enums.ts' />
+/// <reference path='../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts' />
 
-interface IEditWishEvents {
+interface IEditGroupEvents {
     onSave : ()=> void ;
     onCancel : () => void;
 }
 
-interface IEditWishScope {
-    editedWish : IWish;
-	events: IEditWishEvents;
+interface IEditGroupScope {
+    editedGroup : IGroup;
+	events: IEditGroupEvents;
     isEditMode : boolean;
-    
 }
 
 
-
-class EditWishCtrl implements IEditWishEvents {
-    private $scope: IEditWishScope;
+class EditGroupCtrl implements IEditGroupEvents {
+    private $scope: IEditGroupScope;
     private $modalInstance : ng.ui.bootstrap.IModalServiceInstance;
     
-    constructor($scope: IEditWishScope, $modalInstance: ng.ui.bootstrap.IModalServiceInstance,  editMode: editModeEnum, wish : IWish) {
+    constructor($scope: IEditGroupScope, $modalInstance: ng.ui.bootstrap.IModalServiceInstance,  editMode: editModeEnum, group : IGroup) {
         this.$scope = $scope;
         this.$scope.events = this;
-        this.$scope.editedWish = wish;
+        this.$scope.editedGroup = group;
         this.$scope.isEditMode = false;        
         if (editMode == editModeEnum.EditItem) {
             this.$scope.isEditMode = true;
@@ -34,7 +31,7 @@ class EditWishCtrl implements IEditWishEvents {
     
     
     public onSave() {
-        this.$modalInstance.close(this.$scope.editedWish);
+        this.$modalInstance.close(this.$scope.editedGroup);
     }
     
     public onCancel() {

@@ -5,6 +5,9 @@
 /// <reference path='controllers/login.ts' />
 /// <reference path='controllers/HeaderController.ts' />
 /// <reference path='controllers/WishlistController.ts' />
+/// <reference path='controllers/GrouplistController.ts' />
+/// <reference path='controllers/EditGroupController.ts' />
+/// <reference path='controllers/YesNoModalController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
 /// <reference path='factories/alertFactory.ts' />
 
@@ -18,7 +21,9 @@ module christmasApp {
         .controller("LoginCtrl", LoginCtrl)
         .controller("HeaderController", HeaderController)
         .controller("WishlistCtrl", WishlistCtrl)
+        .controller("GrouplistCtrl", GrouplistCtrl)
         .controller("EditWishCtrl",EditWishCtrl)
+        .controller("EditGroupCtrl",EditGroupCtrl)
         .controller("YesNoModalCtrl",YesNoModalCtrl)
         .factory("alertFactory", () => new alertFactory())
         .factory("loginFactory", ($http,$window,$location,alertFactory) => new loginFactory($http,$window,$location,alertFactory))
@@ -44,6 +49,10 @@ module christmasApp {
                 .when('/wishList/:userId', {
                     templateUrl: 'views/wishList.html',
                     controller: 'WishlistCtrl'                        
+                })
+                .when('/groupList', {
+                    templateUrl: 'views/groupList.html',
+                    controller: 'GrouplistCtrl'                        
                 })
                 .otherwise({
                     redirectTo: '/'

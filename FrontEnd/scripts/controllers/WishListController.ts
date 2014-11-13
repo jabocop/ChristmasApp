@@ -3,6 +3,7 @@
 /// <reference path='EditWishController.ts' />
 /// <reference path='../factories/loginFactory.ts' />
 /// <reference path='../factories/alertFactory.ts' />
+/// <reference path='../interfaces/objectDefinitions.d.ts' />
 
 interface IWishlistEvents {
     addWish : () => void;
