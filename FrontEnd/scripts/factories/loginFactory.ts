@@ -5,7 +5,14 @@
 interface ILoginResult {
     token: string;
     user: IUser;
+    groups : IGroup[];
 }
+
+interface ISessionData {
+    user : IUser;
+    groups : IGroup[];
+}
+
 
 class loginFactory {
     private $http : ng.IHttpService;
@@ -14,6 +21,7 @@ class loginFactory {
     private alertFactory : alertFactory;
     public isAuthenticated : boolean;
     public user: IUser;
+    public groups : IGroup[];
     
     
     constructor( $http: ng.IHttpService, $window: ng.IWindowService,$location:ng.ILocationService, alertFactory: alertFactory) {
@@ -21,24 +29,27 @@ class loginFactory {
         this.$window = $window;
         this.$location = $location;
         this.alertFactory = alertFactory;
-        var loggedinUserStr = this.$window.sessionStorage.getItem("user");
-        if (loggedinUserStr !== null) {
+        var sessionData = this.$window.sessionStorage.getItem("sessionData");
+        if (sessionData !== null) {
             //The browser is refreshed and the user needs to be refreshed from the sessionStorage
-            this.initUser(JSON.parse(loggedinUserStr));
+            this.initSessionData(JSON.parse(sessionData));
+            
         }
     }
 
 
-    private initUser(user:IUser) {
+    private initSessionData(sessionData:ISessionData) {
         this.isAuthenticated = true;
-        this.user = user;
+        this.user = sessionData.user;
+        this.groups = sessionData.groups;
     }
     
     private clearSessionStorage() {
         delete this.$window.sessionStorage.removeItem("token");
-        delete this.$window.sessionStorage.removeItem("user");
-        
+        delete this.$window.sessionStorage.removeItem("sessionData");
     }
+    
+ 
     
     public Login(user : ILoginUser) : void {
         this.$http
@@ -49,8 +60,9 @@ class loginFactory {
                 var urlEnoder = new urlDecoder();
                 var profile :IUser =JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
                 this.$window.sessionStorage.setItem("token",data.token);
-                this.$window.sessionStorage.setItem("user",JSON.stringify(profile));
-                this.initUser(profile);
+                var sessionData :ISessionData = {user : profile, groups : data.groups };
+                this.$window.sessionStorage.setItem("sessionData",JSON.stringify(sessionData));
+                this.initSessionData(sessionData);
                 this.$location.path('/')
                 
             })
@@ -67,6 +79,7 @@ class loginFactory {
         this.clearSessionStorage();
         this.isAuthenticated = false;
         this.user = null;
+        this.groups = null;
     }
 
     public NewUser(user:INewUser) : void {
@@ -78,6 +91,22 @@ class loginFactory {
             }) 
             .error((data,status,headers,config)=> {
                 this.alertFactory.addAlert(alertType.Danger,"Failed to register new userq");
+            });
+    }
+    
+    public refreshGroups() {
+        this.$http.get<IGroup[]>('/listGroupsByUser', { params: { userId: this.user._id } })
+            .success((data, status) => {
+                this.groups = data;
+                var sessionData :ISessionData = JSON.parse(this.$window.sessionStorage.getItem("sessionData"));
+                if (sessionData !== null) {
+                    sessionData.groups = this.groups;
+                    this.$window.sessionStorage.setItem("sessionData",JSON.stringify(sessionData));
+                }
+                
+            })
+            .error((data, status) => {
+                this.alertFactory.addAlert(alertType.Danger,"Failed to list groups");
             });
     }
 

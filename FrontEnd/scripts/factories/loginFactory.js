@@ -8,20 +8,21 @@ var loginFactory = (function () {
         this.$window = $window;
         this.$location = $location;
         this.alertFactory = alertFactory;
-        var loggedinUserStr = this.$window.sessionStorage.getItem("user");
-        if (loggedinUserStr !== null) {
+        var sessionData = this.$window.sessionStorage.getItem("sessionData");
+        if (sessionData !== null) {
             //The browser is refreshed and the user needs to be refreshed from the sessionStorage
-            this.initUser(JSON.parse(loggedinUserStr));
+            this.initSessionData(JSON.parse(sessionData));
         }
     }
-    loginFactory.prototype.initUser = function (user) {
+    loginFactory.prototype.initSessionData = function (sessionData) {
         this.isAuthenticated = true;
-        this.user = user;
+        this.user = sessionData.user;
+        this.groups = sessionData.groups;
     };
 
     loginFactory.prototype.clearSessionStorage = function () {
         delete this.$window.sessionStorage.removeItem("token");
-        delete this.$window.sessionStorage.removeItem("user");
+        delete this.$window.sessionStorage.removeItem("sessionData");
     };
 
     loginFactory.prototype.Login = function (user) {
@@ -31,8 +32,9 @@ var loginFactory = (function () {
             var urlEnoder = new urlDecoder();
             var profile = JSON.parse(urlEnoder.url_base64_decode(encodedProfile));
             _this.$window.sessionStorage.setItem("token", data.token);
-            _this.$window.sessionStorage.setItem("user", JSON.stringify(profile));
-            _this.initUser(profile);
+            var sessionData = { user: profile, groups: data.groups };
+            _this.$window.sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
+            _this.initSessionData(sessionData);
             _this.$location.path('/');
         }).error(function (data, status, headers, config) {
             // Erase the token if the user fails to log in
@@ -47,6 +49,7 @@ var loginFactory = (function () {
         this.clearSessionStorage();
         this.isAuthenticated = false;
         this.user = null;
+        this.groups = null;
     };
 
     loginFactory.prototype.NewUser = function (user) {
@@ -56,6 +59,20 @@ var loginFactory = (function () {
             _this.$location.path('/login');
         }).error(function (data, status, headers, config) {
             _this.alertFactory.addAlert(3 /* Danger */, "Failed to register new userq");
+        });
+    };
+
+    loginFactory.prototype.refreshGroups = function () {
+        var _this = this;
+        this.$http.get('/listGroupsByUser', { params: { userId: this.user._id } }).success(function (data, status) {
+            _this.groups = data;
+            var sessionData = JSON.parse(_this.$window.sessionStorage.getItem("sessionData"));
+            if (sessionData !== null) {
+                sessionData.groups = _this.groups;
+                _this.$window.sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
+            }
+        }).error(function (data, status) {
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to list groups");
         });
     };
     return loginFactory;

@@ -5,7 +5,6 @@
 /// <reference path='controllers/login.ts' />
 /// <reference path='controllers/HeaderController.ts' />
 /// <reference path='controllers/WishlistController.ts' />
-/// <reference path='controllers/GrouplistController.ts' />
 /// <reference path='controllers/EditGroupController.ts' />
 /// <reference path='controllers/YesNoModalController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
@@ -21,7 +20,6 @@ module christmasApp {
         .controller("LoginCtrl", LoginCtrl)
         .controller("HeaderController", HeaderController)
         .controller("WishlistCtrl", WishlistCtrl)
-        .controller("GrouplistCtrl", GrouplistCtrl)
         .controller("EditWishCtrl",EditWishCtrl)
         .controller("EditGroupCtrl",EditGroupCtrl)
         .controller("YesNoModalCtrl",YesNoModalCtrl)

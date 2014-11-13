@@ -89,9 +89,18 @@ app.post('/authenticate', function (req, res) {
             var token = jwt.sign(user, secret, {
                 expiresInMinutes: 60 * 5
             });
-            res.json({
-                token: token,
-                user: user
+            //Fetch the groups for this user as well
+            Group.find({users: user._id}, function (err, groups) {
+                if (!err) {
+                    console.log("Groups:" +  groups);
+                    res.json({
+                        token: token,
+                        user: user,
+                        groups : groups
+                    });
+                } else {
+                    console.log("Error occured. Message : " + err);
+                }
             });
         } else {
             res.status(401).send('Unauthorized');

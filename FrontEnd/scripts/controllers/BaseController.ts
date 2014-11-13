@@ -17,4 +17,7 @@ class BaseController {
         this.loginFactory = loginFactory;
         this.baseScope.loginFactory = loginFactory;
     }
+    
+    
+    
 }
