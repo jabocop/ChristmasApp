@@ -29,3 +29,8 @@ interface ILoginUser {
     email: string;
     password: string;
 }
+
+interface listWishesResult {
+    user : IUser;
+    wishes : IWish[];
+}

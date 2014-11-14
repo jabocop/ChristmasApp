@@ -22,6 +22,7 @@ var WishlistCtrl = (function (_super) {
 
         $scope.events = this;
         $scope.userId = $routeParams.userId;
+        this.$scope.myWishList = false;
         this.getWishlist();
     }
     WishlistCtrl.prototype.getEmptyWish = function () {
@@ -38,7 +39,8 @@ var WishlistCtrl = (function (_super) {
         var _this = this;
         if (this.$scope.userId !== undefined) {
             this.$http.get('/listWishes', { params: { userId: this.$scope.userId } }).success(function (data, status) {
-                _this.$scope.wishes = data;
+                _this.$scope.user = data.user;
+                _this.$scope.wishes = data.wishes;
             }).error(function (data, status) {
                 _this.alertFactory.addAlert(3 /* Danger */, "Failed to list wishes");
             });
@@ -132,3 +134,13 @@ var WishlistCtrl = (function (_super) {
     };
     return WishlistCtrl;
 })(BaseController);
+
+var MyWishListCtrl = (function (_super) {
+    __extends(MyWishListCtrl, _super);
+    function MyWishListCtrl($scope, $http, loginFactory, alertFactory, $modal) {
+        var params = { userId: loginFactory.user._id };
+        _super.call(this, $scope, params, $http, loginFactory, alertFactory, $modal);
+        this.$scope.myWishList = true;
+    }
+    return MyWishListCtrl;
+})(WishlistCtrl);

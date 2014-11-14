@@ -14,7 +14,9 @@ interface IWishlistEvents {
 interface IWishlistScope extends IBaseScope {
     userId: string;
 	wishes : IWish[];
+    user : IUser;
     events: IWishlistEvents;
+    myWishList : boolean;
 }
 
 interface IWishlistParams {
@@ -23,7 +25,7 @@ interface IWishlistParams {
 
 
 class WishlistCtrl extends BaseController implements IWishlistEvents {
-    private $scope: IWishlistScope;
+    public $scope: IWishlistScope;
     private $http: ng.IHttpService;
     private alertFactory : alertFactory;
     private $modal : ng.ui.bootstrap.IModalService;
@@ -37,6 +39,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         
         $scope.events = this;
         $scope.userId = $routeParams.userId;
+        this.$scope.myWishList = false;
 		this.getWishlist();
 	}
     
@@ -52,9 +55,10 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
 
     private getWishlist() {
         if (this.$scope.userId !== undefined) {
-			this.$http.get<IWish[]>('/listWishes', { params: { userId: this.$scope.userId } })
+			this.$http.get<listWishesResult>('/listWishes', { params: { userId: this.$scope.userId } })
 				.success((data, status) => {
-					this.$scope.wishes = data;
+					this.$scope.user = data.user;
+                    this.$scope.wishes = data.wishes;
 				})
 				.error((data, status) => {
 					this.alertFactory.addAlert(alertType.Danger,"Failed to list wishes");
@@ -139,4 +143,13 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
             });
     }
 
+}
+
+class MyWishListCtrl extends WishlistCtrl {
+    constructor($scope: IWishlistScope,  $http: ng.IHttpService, loginFactory: loginFactory, alertFactory : alertFactory,$modal : ng.ui.bootstrap.IModalService) {
+        var params : IWishlistParams = {userId : loginFactory.user._id}
+        super($scope,params, $http,  loginFactory,alertFactory, $modal);
+        this.$scope.myWishList = true;
+         
+	}
 }

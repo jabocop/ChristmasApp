@@ -6,6 +6,7 @@
 /// <reference path='controllers/HeaderController.ts' />
 /// <reference path='controllers/WishlistController.ts' />
 /// <reference path='controllers/EditGroupController.ts' />
+/// <reference path='controllers/GroupController.ts' />
 /// <reference path='controllers/YesNoModalController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
 /// <reference path='factories/alertFactory.ts' />
@@ -13,7 +14,7 @@ var christmasApp;
 (function (christmasApp) {
     'use strict';
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("EditWishCtrl", EditWishCtrl).controller("EditGroupCtrl", EditGroupCtrl).controller("YesNoModalCtrl", YesNoModalCtrl).factory("alertFactory", function () {
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("MyWishlistCtrl", MyWishListCtrl).controller("EditWishCtrl", EditWishCtrl).controller("EditGroupCtrl", EditGroupCtrl).controller("GroupCtrl", GroupCtrl).controller("YesNoModalCtrl", YesNoModalCtrl).factory("alertFactory", function () {
         return new alertFactory();
     }).factory("loginFactory", function ($http, $window, $location, alertFactory) {
         return new loginFactory($http, $window, $location, alertFactory);
@@ -33,9 +34,12 @@ var christmasApp;
         }).when('/wishList/:userId', {
             templateUrl: 'views/wishList.html',
             controller: 'WishlistCtrl'
-        }).when('/groupList', {
-            templateUrl: 'views/groupList.html',
-            controller: 'GrouplistCtrl'
+        }).when('/myWishList', {
+            templateUrl: 'views/wishList.html',
+            controller: 'MyWishlistCtrl'
+        }).when('/group/:groupId', {
+            templateUrl: 'views/group.html',
+            controller: 'GroupCtrl'
         }).otherwise({
             redirectTo: '/'
         });

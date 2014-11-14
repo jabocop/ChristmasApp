@@ -18,22 +18,22 @@
                             <li ng-class="{active:isActive('/')}"><a href="/">Home</a></li>
                             
                             <!-- It exists  one group. Lets show the name of that group -->
-                            <li ng-show="loginFactory.isAuthenticated && loginFactory.groups.length == 1"><a href="#">{{loginFactory.groups[0].name}}</a></li>
+                            <li ng-show="loginFactory.isAuthenticated && loginFactory.groups.length == 1"><a href="#/group/{{loginFactory.groups[0]._id}}">{{loginFactory.groups[0].name}}</a></li>
                             <!-- It exists more than one group. Lets build a dropdown -->
                             <li class="dropdown"  ng-show="loginFactory.isAuthenticated && loginFactory.groups.length > 1">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Groups <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li ng-repeat="group in loginFactory.groups"><a href="#">{{group.name}}</a></li>
+                                    <li ng-repeat="group in loginFactory.groups"><a href="#/group/{{group._id}}">{{group.name}}</a></li>
                                 </ul>
                             </li>
                             
                             
                             <!-- My wishlist -->
-                            <li ng-class="{active:isActive('/wishList')}"  ng-show="loginFactory.isAuthenticated"><a href="#/wishList/{{loginFactory.user._id}}">Wishlist</a></li>
+                            <li ng-class="{active:isActive('/myWishList')}"  ng-show="loginFactory.isAuthenticated"><a href="#/myWishList">My Wishlist</a></li>
                             <li ng-class="{active:isActive('/about')}"><a href="#/about">About</a></li>
                             
                             <!-- Add group -->
-                            <li ng-class="{active:isActive('/createGroup')}" ng-click="events.createGroup()"><a href="#">Create Group</a></li>
+                            <li ng-class="{active:isActive('/createGroup')}" ng-show="loginFactory.isAuthenticated" ng-click="events.createGroup()"><a href="#">Create Group</a></li>
                             
                             
                             
@@ -69,6 +69,7 @@
         <script src="scripts/controllers/WishListController.js"></script>
         <script src="scripts/controllers/EditWishController.js"></script>
         <script src="scripts/controllers/EditGroupController.js"></script>
+        <script src="scripts/controllers/GroupController.js"></script>
         <script src="scripts/controllers/YesNoModalController.js"></script>
         <script src="scripts/factories/loginFactory.js"></script>
         <script src="scripts/factories/authInterceptor.js"></script>

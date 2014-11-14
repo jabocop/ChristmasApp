@@ -1,3 +1,5 @@
+<h3 ng-show="myWishList">My Wishlist</h3>
+<h3 ng-show="!myWishList">Wishlist for {{user.firstname}} {{user.lastname}}</h3>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -11,9 +13,13 @@
             <td><a popover="{{wish.comment}}" popover-html="true" popover-title="{{wish.name}}" ng-click="events.selectWish(wish);">{{wish.name}}</a></td>
             <td><a href="{{wish.url}}">{{wish.url}}</a>
             </td>
-            <td><a ng-click="events.editWish(wish);"><span class="glyphicon glyphicon-edit"></span></a>
+            <td>
+                <!-- Only show EditLink if in MyWishlist mode -->
+                <a ng-show="myWishList" ng-click="events.editWish(wish);"><span class="glyphicon glyphicon-edit"></span></a>
             </td>
-            <td><a ng-click="events.deleteWish(wish);"><span class="glyphicon glyphicon-remove"></span></a>
+            <td>
+                <!-- Only show DeleteLink if in MyWishlist mode -->
+                <a ng-show="myWishList" ng-click="events.deleteWish(wish);"><span class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>
     </tbody>

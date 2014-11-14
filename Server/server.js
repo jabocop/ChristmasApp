@@ -192,16 +192,23 @@ app.post('/saveWish', function (req, res) {
 app.get('/listWishes', function (req, res) {
     console.log('Call to /listWishes');
     console.log('UserId:' + req.param('userId'));
-    Wish.find({
-        userId: req.param('userId')
-    }, function (err, wishes) {
-        if (!err) {
-            console.log(wishes);
-            res.json(wishes);
+    User.findOne({_id: req.param('userId')},function (err,user) {
+        if (!err && user !== null) {
+            Wish.find({
+                userId: req.param('userId')
+            }, function (err, wishes) {
+                if (!err) {
+                    console.log(wishes);
+                    res.json({user : user, wishes:wishes});
+                } else {
+                    console.log("Error occured. Message : " + err);
+                }
+            });
         } else {
-            console.log("Error occured. Message : " + err);
+            console.log("Failed to find user. Message: " + err);
         }
     });
+    
 });
 
 app.post('/addGroup', function (req, res) {
@@ -247,6 +254,22 @@ app.get('/listGroupsByUser', function (req, res) {
         if (!err) {
             console.log(groups);
             res.json(groups);
+        } else {
+            console.log("Error occured. Message : " + err);
+        }
+    });
+});
+
+
+app.get('/getGroupWithUsers', function (req, res) {
+    console.log('Call to /getGroupWithUsers');
+    console.log('GroupId:' + req.param('groupId'));
+    Group.findOne({
+        _id: req.param('groupId')
+    }).populate('users').exec(function (err, group) {
+        if (!err) {
+            console.log(group);
+            res.json(group);
         } else {
             console.log("Error occured. Message : " + err);
         }
