@@ -32,10 +32,10 @@ var christmasApp;
             templateUrl: 'views/newUser.html',
             controller: 'NewUserCtrl'
         }).when('/wishList/:userId', {
-            templateUrl: 'views/wishList.html',
+            templateUrl: 'views/wishlist.html',
             controller: 'WishlistCtrl'
         }).when('/myWishList', {
-            templateUrl: 'views/wishList.html',
+            templateUrl: 'views/wishlist.html',
             controller: 'MyWishlistCtrl'
         }).when('/group/:groupId', {
             templateUrl: 'views/group.html',
