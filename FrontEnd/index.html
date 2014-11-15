@@ -53,7 +53,7 @@
                     
                     
                 </div>
-                <alert ng-repeat="alert in alertFactory.alerts" type="{{alert.type}}" close="alertFactory.closeAlert($index)">{{alert.msg}}</alert>
+                <alert ng-repeat="alert in alertFactory.alerts" type="{{alert.type}}" close="alertFactory.closeAlert($index)"><span ng-bind="alert.msg"></span></alert>
                 
                 
 	    	</div>
