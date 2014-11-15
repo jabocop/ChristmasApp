@@ -39,8 +39,16 @@
                             
                             
                         </ul>
-                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated" ng-bind="loginFactory.user.email"></p> <p> | <a ng-click="loginFactory.Logout()">Log Out</a></p>
-                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated" ng-bind="loginFactory.user.email"></p><p> | <a href="#/login">Log In</a></p>
+                        
+                        <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated"> 
+                            <span ng-bind="loginFactory.user.email"></span> | <a ng-click="loginFactory.Logout()">Log Out</a>
+                        </p>
+                        
+                        
+                        <p class="navbar-text pull-right" ng-hide="loginFactory.isAuthenticated">
+                            <span ng-bind="loginFactory.user.email"></span> | <a href="#/login">Log In</a>
+                        </p>
+                        
                     </div>
                     
                     
