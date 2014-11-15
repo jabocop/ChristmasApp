@@ -1,5 +1,4 @@
 node_modules
-bower_components
 FrontEnd/node_modules
 gulp-tsc-tmp*
 .gulp-tsc-tmp*
