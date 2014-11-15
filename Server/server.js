@@ -5,15 +5,85 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var mongoose = require('mongoose');
 
-mongoose.connect("localhost:27017/ChristmasApp");
+
+//Environment veriables is set by SET ENV_SECRET="DUMMY"
+var mongoConnection = process.env.ENV_MONGODB
+if (!mongoConnection) {
+    //Use the dummy secret if no other secret is set.
+    mongoConnection = "localhost:27017/ChristmasApp";
+}
+
+
+
+
+mongoose.connect(mongoConnection);
 
 var User = require('./Models/User');
 var Wish = require('./Models/Wish');
 var Group = require('./Models/Group');
 
-var secret = 'this is the secret secret secret 12356';
+//Environment veriables is set by SET ENV_SECRET="DUMMY"
+var secret = process.env.ENV_SECRET
+if (!secret) {
+    //Use the dummy secret if no other secret is set.
+    secret = 'this is the secret secret secret 12356';
+}
 
 var app = express();
+
+/*
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill(process.env.ENV_MANDRILL_KEY);
+
+
+var message = {
+    "html": "<p>Testing Testing</p>",
+    "text": "Testing Testing",
+    "subject": "Test APA",
+    "from_email": "jacob@ankarberg.net",
+    "from_name": "Jacob Ankarberg",
+    "to": [{
+            "email": "jacob@ankarberg.net",
+            "name": "Jacob Ankarberg",
+            "type": "to"
+        }],
+    "headers": {
+        "Reply-To": "doNotReply@ankarberg.net"
+    },
+    "important": false,
+    "track_opens": null,
+    "track_clicks": null,
+    "auto_text": null,
+    "auto_html": null,
+    "inline_css": null,
+    "url_strip_qs": null,
+    "preserve_recipients": null,
+    "view_content_link": null,
+    "tracking_domain": null,
+    "signing_domain": null,
+    "return_path_domain": null,
+    "merge": true,
+    "merge_language": "mailchimp",
+    "global_merge_vars": null,
+    "merge_vars": null,
+    "tags": null,
+    "subaccount": null
+};
+var async = false;
+var ip_pool = "Main Pool";
+mandrill_client.messages.send({"message": message, "async": async}, function(result) {
+    console.log(result);
+    
+}, function(e) {
+    // Mandrill returns the error as an object with name and message keys
+    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+    // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+});
+
+*/
+
+
+
 
 /*
 User.create({
