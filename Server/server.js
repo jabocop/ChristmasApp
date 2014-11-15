@@ -360,6 +360,8 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html')); // load the single view file (angular will handle the page changes on the front-end)
 });
 
-app.listen(8080, function () {
-    console.log('listening on http://localhost:8080');
+app.set('port', (process.env.PORT || 5000))
+
+app.listen(app.get('port'), function () {
+    console.log("Node app is running at localhost:" + app.get('port'))
 });
