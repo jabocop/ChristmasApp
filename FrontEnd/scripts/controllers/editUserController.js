@@ -36,7 +36,7 @@ var NewUserCtrl = (function (_super) {
         if (!this.$scope.editedUser.password || this.$scope.password2 !== this.$scope.editedUser.password) {
             this.alertFactory.addAlert(2 /* Warning */, "Password must be entered and be matched.");
         } else {
-            this.loginFactory.editUser(this.$scope.editedUser);
+            this.loginFactory.newUser(this.$scope.editedUser);
         }
     };
     return NewUserCtrl;
@@ -55,6 +55,14 @@ var EditUserCtrl = (function (_super) {
     }
     EditUserCtrl.prototype.internalIsNewUser = function () {
         return false;
+    };
+
+    EditUserCtrl.prototype.submit = function () {
+        if (!this.$scope.editedUser.password || this.$scope.password2 !== this.$scope.editedUser.password) {
+            this.alertFactory.addAlert(2 /* Warning */, "Password must be entered and be matched.");
+        } else {
+            this.loginFactory.editUser(this.$scope.editedUser);
+        }
     };
     return EditUserCtrl;
 })(NewUserCtrl);

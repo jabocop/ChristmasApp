@@ -45,7 +45,7 @@ class NewUserCtrl extends BaseController {
         if (!this.$scope.editedUser.password || this.$scope.password2 !== this.$scope.editedUser.password) {
             this.alertFactory.addAlert(alertType.Warning,"Password must be entered and be matched.");
         } else {
-            this.loginFactory.editUser(this.$scope.editedUser);
+            this.loginFactory.newUser(this.$scope.editedUser);
         }
     }
 
@@ -68,5 +68,14 @@ class EditUserCtrl extends NewUserCtrl {
     
     public /*override */ internalIsNewUser() : boolean {
         return false;
+    }
+    
+    public submit() : void {
+        if (!this.$scope.editedUser.password || this.$scope.password2 !== this.$scope.editedUser.password) {
+            this.alertFactory.addAlert(alertType.Warning,"Password must be entered and be matched.");
+        } else {
+            this.loginFactory.editUser(this.$scope.editedUser);
+        }
+    
     }
 }
