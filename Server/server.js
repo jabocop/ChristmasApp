@@ -283,9 +283,17 @@ app.post('/addGroup', function (req, res) {
 
 app.post('/addUserToGroup', function (req, res) {
     console.log('Call to /addUserToGroup');
-    Group.findOne({_id: req.body._id},function(err,group) {
+    Group.findOne({_id: req.body.groupId},function(err,group) {
         if (!err && group !== null) {
             group.users.push(req.body.userId);
+            group.save(function (err) {
+            if (err) {
+                console.log("Failed to save group" + err);
+            } else {
+                console.log('User added to group. Group:' + group);
+                res.json({Group: group});    
+            }
+            });
         } else {
             if (err) {
                 console.log("Error occured. Message : " + err);

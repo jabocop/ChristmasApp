@@ -7,6 +7,7 @@
 
 interface IHeaderEvents {
     createGroup();
+    joinGroup();
 }
 
 interface IHeaderScope extends IBaseScope {
@@ -82,8 +83,39 @@ class HeaderController extends BaseController implements IHeaderEvents {
         });
     }
     
+    
+    private addUserToGroup(groupKey : string) {
+        var functionToCall : string = 'addUserToGroup';
+        var dataToSave = {groupId : groupKey, userId : this.loginFactory.user._id};
+        this.$http.post<any>(functionToCall, dataToSave)
+            .success((data, status) => {
+                //Succesful. Refresh the list.
+                this.loginFactory.refreshGroups();
+            })
+            .error((data, status) => {
+                this.$scope.alertFactory.addAlert(alertType.Danger,"Failed to join group");
+            });
+    }
+    
+    private openJoinGroupModal() {
+        
+        var options :ng.ui.bootstrap.IModalSettings = {
+            templateUrl : 'views/joinGroupModal.html',
+            controller : 'JoinGroupCtrl'
+        }
+        var modal = this.$modal.open(options);
+        modal.result.then( (groupKey :string) => {
+            this.addUserToGroup(groupKey);
+        });
+    }
+    
     public createGroup() {
         this.openEditGroupModal(this.getEmptyGroup(), true);
+    }
+    
+    public joinGroup() {
+        this.openJoinGroupModal();
+        
     }
     
 

@@ -74,8 +74,36 @@ var HeaderController = (function (_super) {
         });
     };
 
+    HeaderController.prototype.addUserToGroup = function (groupKey) {
+        var _this = this;
+        var functionToCall = 'addUserToGroup';
+        var dataToSave = { groupId: groupKey, userId: this.loginFactory.user._id };
+        this.$http.post(functionToCall, dataToSave).success(function (data, status) {
+            //Succesful. Refresh the list.
+            _this.loginFactory.refreshGroups();
+        }).error(function (data, status) {
+            _this.$scope.alertFactory.addAlert(3 /* Danger */, "Failed to join group");
+        });
+    };
+
+    HeaderController.prototype.openJoinGroupModal = function () {
+        var _this = this;
+        var options = {
+            templateUrl: 'views/joinGroupModal.html',
+            controller: 'JoinGroupCtrl'
+        };
+        var modal = this.$modal.open(options);
+        modal.result.then(function (groupKey) {
+            _this.addUserToGroup(groupKey);
+        });
+    };
+
     HeaderController.prototype.createGroup = function () {
         this.openEditGroupModal(this.getEmptyGroup(), true);
+    };
+
+    HeaderController.prototype.joinGroup = function () {
+        this.openJoinGroupModal();
     };
     return HeaderController;
 })(BaseController);

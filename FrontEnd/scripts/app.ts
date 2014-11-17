@@ -28,6 +28,7 @@ module christmasApp {
         .controller("MyWishlistCtrl", MyWishListCtrl)
         .controller("EditWishCtrl",EditWishCtrl)
         .controller("EditGroupCtrl",EditGroupCtrl)
+        .controller("JoinGroupCtrl",JoinGroupCtrl)
         .controller("GroupCtrl",GroupCtrl)
         .controller("YesNoModalCtrl",YesNoModalCtrl)
         .factory("alertFactory", () => new alertFactory())

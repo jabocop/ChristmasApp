@@ -36,6 +36,9 @@
                             <!-- Add group -->
                             <li ng-class="{active:isActive('/createGroup')}" ng-show="loginFactory.isAuthenticated" ng-click="events.createGroup()"><a href="#">Create Group</a></li>
                             
+                            <!-- Join group -->
+                            <li ng-class="{active:isActive('/joinGroup')}" ng-show="loginFactory.isAuthenticated" ng-click="events.joinGroup()"><a href="#">Join Group</a></li>
+                            
                             <!-- Edit user -->
                             <li ng-class="{active:isActive('/editUser')}" ng-show="loginFactory.isAuthenticated"><a href="#/editUser">Edit User</a></li>
                             
@@ -82,6 +85,7 @@
         <script src="scripts/controllers/WishListController.js"></script>
         <script src="scripts/controllers/EditWishController.js"></script>
         <script src="scripts/controllers/EditGroupController.js"></script>
+        <script src="scripts/controllers/JoinGroupController.js"></script>
         <script src="scripts/controllers/GroupController.js"></script>
         <script src="scripts/controllers/YesNoModalController.js"></script>
         <script src="scripts/factories/loginFactory.js"></script>
