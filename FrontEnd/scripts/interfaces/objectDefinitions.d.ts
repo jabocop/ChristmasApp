@@ -16,11 +16,10 @@ interface IGroup{
 interface IUser {
     _id: string;
     email: string;
-    firstName: string;
-    lastName: string;
+    name: string;
 }
 
-interface INewUser extends IUser {
+interface IEditedUser extends IUser {
     password: string;
 }
 

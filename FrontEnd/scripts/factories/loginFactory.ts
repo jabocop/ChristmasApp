@@ -75,22 +75,22 @@ class loginFactory {
             }); 
     }
 
-    public Logout(): void {
+    public logout(): void {
         this.clearSessionStorage();
         this.isAuthenticated = false;
         this.user = null;
         this.groups = null;
     }
 
-    public NewUser(user:INewUser) : void {
+    public editUser(user:IEditedUser) : void {
         this.$http
-            .post<IUser>('/newUser',user)
+            .post<IUser>('/editUser',user)
             .success((data, status, headers,config) => {
-                this.alertFactory.addAlert(alertType.Success,"User is created");
+                this.alertFactory.addAlert(alertType.Success,"User is saved");
                 this.$location.path('/login')
             }) 
             .error((data,status,headers,config)=> {
-                this.alertFactory.addAlert(alertType.Danger,"Failed to register new userq");
+                this.alertFactory.addAlert(alertType.Danger,"Failed to save user");
             });
     }
     

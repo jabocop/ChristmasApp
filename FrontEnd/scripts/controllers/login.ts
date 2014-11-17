@@ -44,7 +44,6 @@ class LoginCtrl extends BaseController {
 
 
     public submit(): void {
-        //TODO: Check password2
         this.loginFactory.Login(this.$scope.loginUser);
         this.$scope.loginUser = null;
         

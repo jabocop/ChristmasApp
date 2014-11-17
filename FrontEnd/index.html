@@ -36,12 +36,16 @@
                             <!-- Add group -->
                             <li ng-class="{active:isActive('/createGroup')}" ng-show="loginFactory.isAuthenticated" ng-click="events.createGroup()"><a href="#">Create Group</a></li>
                             
+                            <!-- Edit user -->
+                            <li ng-class="{active:isActive('/editUser')}" ng-show="loginFactory.isAuthenticated"><a href="#/editUser">Edit User</a></li>
                             
+                            
+                                
                             
                         </ul>
                         
                         <p class="navbar-text pull-right" ng-hide="!loginFactory.isAuthenticated"> 
-                            <span ng-bind="loginFactory.user.email"></span> | <a ng-click="loginFactory.Logout()">Log Out</a>
+                            <span ng-bind="loginFactory.user.email"></span> | <a ng-click="loginFactory.logout()">Log Out</a>
                         </p>
                         
                         
@@ -74,7 +78,7 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/controllers/newUserController.js"></script>
+        <script src="scripts/controllers/editUserController.js"></script>
         <script src="scripts/controllers/WishListController.js"></script>
         <script src="scripts/controllers/EditWishController.js"></script>
         <script src="scripts/controllers/EditGroupController.js"></script>

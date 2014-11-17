@@ -45,20 +45,20 @@ var loginFactory = (function () {
         });
     };
 
-    loginFactory.prototype.Logout = function () {
+    loginFactory.prototype.logout = function () {
         this.clearSessionStorage();
         this.isAuthenticated = false;
         this.user = null;
         this.groups = null;
     };
 
-    loginFactory.prototype.NewUser = function (user) {
+    loginFactory.prototype.editUser = function (user) {
         var _this = this;
-        this.$http.post('/newUser', user).success(function (data, status, headers, config) {
-            _this.alertFactory.addAlert(0 /* Success */, "User is created");
+        this.$http.post('/editUser', user).success(function (data, status, headers, config) {
+            _this.alertFactory.addAlert(0 /* Success */, "User is saved");
             _this.$location.path('/login');
         }).error(function (data, status, headers, config) {
-            _this.alertFactory.addAlert(3 /* Danger */, "Failed to register new userq");
+            _this.alertFactory.addAlert(3 /* Danger */, "Failed to save user");
         });
     };
 

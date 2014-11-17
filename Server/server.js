@@ -88,8 +88,7 @@ mandrill_client.messages.send({"message": message, "async": async}, function(res
 /*
 User.create({
       email : 'test@testapa',
-      firstname: 'TestAPA',
-      lastname: 'BC',
+      name: 'TestAPA',
       password : '123'
     },function (err,user) {
       if (err) {
@@ -180,14 +179,16 @@ app.post('/authenticate', function (req, res) {
 
 });
 
-app.post('/newUser', function (req, res) {
-    console.log('Call to /newUser');
-    User.create({
+app.post('/editUser', function (req, res) {
+    console.log('Call to /editUser');
+    var user = {
         email: req.body.email,
-        firstname: req.body.firstName,
-        lastname: req.body.lastName,
+        name: req.body.name,
         password: req.body.password
-    }, function (err, user) {
+    };
+    User.update({_id : req.body._id }, user, {
+        upsert: true
+    }, function (err,user) {
         if (err) {
             console.log("Failed to create user" + err);
         } else {
@@ -198,27 +199,7 @@ app.post('/newUser', function (req, res) {
         }
     });
 });
-
-app.post('/newWish', function (req, res) {
-    console.log('Call to /newWish');
-    var wish = {
-        name: req.body.name,
-        comment: req.body.comment,
-        url: req.body.url,
-        userId: req.body.userId
-    };
-    Wish.create(wish, function (err, wish) {
-        if (err) {
-            console.log("Failed to create wish" + err);
-        } else {
-            console.log('Wish created. Wish:' + wish);
-            res.json({
-                Wish: wish
-            });
-        }
-    });
-});
-
+    
 app.post('/deleteWish', function (req, res) {
     console.log('Call to /deleteWish with id: ' + req.body._id);
     Wish.remove({

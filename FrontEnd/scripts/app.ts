@@ -6,6 +6,7 @@
 /// <reference path='controllers/HeaderController.ts' />
 /// <reference path='controllers/WishlistController.ts' />
 /// <reference path='controllers/EditGroupController.ts' />
+/// <reference path='controllers/editUserController.ts' />
 /// <reference path='controllers/GroupController.ts' />
 /// <reference path='controllers/YesNoModalController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
@@ -20,6 +21,8 @@ module christmasApp {
         .controller("MainCtrl", MainCtrl)
         .controller("AboutCtrl", AboutCtrl)
         .controller("LoginCtrl", LoginCtrl)
+        .controller("EditUserCtrl", EditUserCtrl)
+        .controller("NewUserCtrl", NewUserCtrl)
         .controller("HeaderController", HeaderController)
         .controller("WishlistCtrl", WishlistCtrl)
         .controller("MyWishlistCtrl", MyWishListCtrl)
@@ -45,11 +48,16 @@ module christmasApp {
                     controller: 'LoginCtrl'
                 })
                 .when('/newUser', {
-                    templateUrl: 'views/newUser.html',
-                    controller: 'NewUserCtrl'
+                    templateUrl: 'views/editUser.html',
+                    controller: 'NewUserCtrl',
+                })
+                .when('/editUser/', {
+                    templateUrl: 'views/editUser.html',
+                    controller: 'EditUserCtrl',
                 })
                 .when('/wishList/:userId', {
                     templateUrl: 'views/wishlist.html',
+                    
                     controller: 'WishlistCtrl'                        
                 })
                 .when('/myWishList', {
