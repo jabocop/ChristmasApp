@@ -235,6 +235,26 @@ app.post('/deleteWish', function (req, res) {
     });
 });
 
+app.post('/newWish', function (req, res) {
+    console.log('Call to /newWish');
+    var wish = {
+        name: req.body.name,
+        comment: req.body.comment,
+        url: req.body.url,
+        userId: req.body.userId
+    };
+    Wish.create(wish, function (err, wish) {
+        if (err) {
+            console.log("Failed to create wish" + err);
+        } else {
+            console.log('Wish created. Wish:' + wish);
+            res.json({
+                Wish: wish
+            });
+        }
+    });
+});
+
 app.post('/saveWish', function (req, res) {
     console.log('Call  to /saveWish');
     var wish = {

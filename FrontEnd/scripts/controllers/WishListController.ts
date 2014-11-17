@@ -66,8 +66,12 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
 		}
     }
 
-    private saveWish(wish : IWish) {
+    private saveWish(wish : IWish,editMode : editModeEnum) {
+        
         var functionToCall : string = 'saveWish';
+        if (editMode == editModeEnum.NewItem) {
+            functionToCall = "newWish";
+        }
         
         this.$http.post<any>(functionToCall, wish)
             .success((data, status) => {
@@ -96,7 +100,7 @@ class WishlistCtrl extends BaseController implements IWishlistEvents {
         }
         var modal = this.$modal.open(options);
         modal.result.then( (wish :IWish) => {
-            this.saveWish(wish);
+            this.saveWish(wish,mode);
         });
     }
     

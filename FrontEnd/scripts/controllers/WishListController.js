@@ -47,9 +47,12 @@ var WishlistCtrl = (function (_super) {
         }
     };
 
-    WishlistCtrl.prototype.saveWish = function (wish) {
+    WishlistCtrl.prototype.saveWish = function (wish, editMode) {
         var _this = this;
         var functionToCall = 'saveWish';
+        if (editMode == 1 /* NewItem */) {
+            functionToCall = "newWish";
+        }
 
         this.$http.post(functionToCall, wish).success(function (data, status) {
             //Succesful. Refresh the list.
@@ -80,7 +83,7 @@ var WishlistCtrl = (function (_super) {
         };
         var modal = this.$modal.open(options);
         modal.result.then(function (wish) {
-            _this.saveWish(wish);
+            _this.saveWish(wish, mode);
         });
     };
 
