@@ -53,8 +53,18 @@ var loginFactory = (function () {
     };
 
     loginFactory.prototype.editUser = function (user) {
+        this.saveUser(user, false);
+    };
+
+    loginFactory.prototype.newUser = function (user) {
+        this.saveUser(user, true);
+    };
+
+    loginFactory.prototype.saveUser = function (user, isNewUser) {
         var _this = this;
-        this.$http.post('/editUser', user).success(function (data, status, headers, config) {
+        var methodToCall = isNewUser ? "/newUser" : "/editUser";
+
+        this.$http.post(methodToCall, user).success(function (data, status, headers, config) {
             _this.alertFactory.addAlert(0 /* Success */, "User is saved");
             _this.$location.path('/login');
         }).error(function (data, status, headers, config) {

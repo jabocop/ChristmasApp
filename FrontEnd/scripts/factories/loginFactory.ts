@@ -82,9 +82,20 @@ class loginFactory {
         this.groups = null;
     }
 
-    public editUser(user:IEditedUser) : void {
+    
+     public editUser(user:IEditedUser) : void {
+        this.saveUser(user,false);
+    }
+    
+    public newUser(user:IEditedUser) : void {
+        this.saveUser(user,true);
+    }
+    
+    private saveUser(user: IEditedUser,isNewUser : boolean) :void {
+        var methodToCall = isNewUser ? "/newUser" : "/editUser";        
+            
         this.$http
-            .post<IUser>('/editUser',user)
+            .post<IUser>(methodToCall,user)
             .success((data, status, headers,config) => {
                 this.alertFactory.addAlert(alertType.Success,"User is saved");
                 this.$location.path('/login')

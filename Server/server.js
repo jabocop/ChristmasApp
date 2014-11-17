@@ -179,6 +179,26 @@ app.post('/authenticate', function (req, res) {
 
 });
 
+
+app.post('/newUser', function (req, res) {
+    console.log('Call to /newUser');
+    User.create({
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password
+    }, function (err, user) {
+        if (err) {
+            console.log("Failed to create user" + err);
+        } else {
+            console.log('User created. User:' + user);
+            res.json({
+                User: user
+            });
+        }
+    });
+});
+
+
 app.post('/editUser', function (req, res) {
     console.log('Call to /editUser');
     var user = {
