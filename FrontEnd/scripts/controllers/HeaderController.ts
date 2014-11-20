@@ -62,18 +62,12 @@ class HeaderController extends BaseController implements IHeaderEvents {
     }
     
     
-    private openEditGroupModal(group : IGroup, newGroup : boolean) {
-        
-        var mode = editModeEnum.NewItem;
-        if (!newGroup) {
-            mode = editModeEnum.EditItem;
-        }
+    private openAddGroupModal(group : IGroup) {
         
         var options :ng.ui.bootstrap.IModalSettings = {
-            templateUrl : 'views/editGroupModal.html',
-            controller : 'EditGroupCtrl',
+            templateUrl : 'views/addGroupModal.html',
+            controller : 'AddGroupCtrl',
             resolve : {
-                editMode : () => {return mode},
                 group: () => {return group}
             }
         }
@@ -110,7 +104,7 @@ class HeaderController extends BaseController implements IHeaderEvents {
     }
     
     public createGroup() {
-        this.openEditGroupModal(this.getEmptyGroup(), true);
+        this.openAddGroupModal(this.getEmptyGroup());
     }
     
     public joinGroup() {

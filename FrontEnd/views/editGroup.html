@@ -1,0 +1,20 @@
+<form role="form" ng-submit="events.update()">
+    <div class="form-group">
+      <label for="name">Name</label>
+        <input ng-model="editedGroup.name" type="text" class="form-control" id="name" name="name" placeholder="Name" />
+    </div>
+    <input type="submit" value="Save" />
+</form>
+
+<div>To invite users to this group ask them to join the group with the id: {{editedGroup._id}}</div>
+
+<form role="form" ng-submit="events.invite()">
+    To invite a new users to the group, insert the email address below.
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input ng-model="email" type="email" class="form-control" id="email" name="email" placeholder="Enter email" />
+    </div>
+    <input type="submit" value="Send invite" />
+</form>
+
+<a href=#>Delete Group</a>

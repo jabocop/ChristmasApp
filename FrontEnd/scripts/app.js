@@ -5,9 +5,10 @@
 /// <reference path='controllers/login.ts' />
 /// <reference path='controllers/HeaderController.ts' />
 /// <reference path='controllers/WishlistController.ts' />
-/// <reference path='controllers/EditGroupController.ts' />
+/// <reference path='controllers/AddGroupController.ts' />
 /// <reference path='controllers/editUserController.ts' />
 /// <reference path='controllers/GroupController.ts' />
+/// <reference path='controllers/JoinGroupController.ts' />
 /// <reference path='controllers/YesNoModalController.ts' />
 /// <reference path='factories/authInterceptor.ts' />
 /// <reference path='factories/alertFactory.ts' />
@@ -15,7 +16,7 @@ var christmasApp;
 (function (christmasApp) {
     'use strict';
 
-    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("EditUserCtrl", EditUserCtrl).controller("NewUserCtrl", NewUserCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("MyWishlistCtrl", MyWishListCtrl).controller("EditWishCtrl", EditWishCtrl).controller("EditGroupCtrl", EditGroupCtrl).controller("JoinGroupCtrl", JoinGroupCtrl).controller("GroupCtrl", GroupCtrl).controller("YesNoModalCtrl", YesNoModalCtrl).factory("alertFactory", function () {
+    var ChristmasApp = angular.module('ChristmasApp', ['ngRoute', 'ui.bootstrap']).controller("MainCtrl", MainCtrl).controller("AboutCtrl", AboutCtrl).controller("LoginCtrl", LoginCtrl).controller("EditUserCtrl", EditUserCtrl).controller("NewUserCtrl", NewUserCtrl).controller("HeaderController", HeaderController).controller("WishlistCtrl", WishlistCtrl).controller("MyWishlistCtrl", MyWishListCtrl).controller("EditWishCtrl", EditWishCtrl).controller("AddGroupCtrl", AddGroupCtrl).controller("JoinGroupCtrl", JoinGroupCtrl).controller("GroupCtrl", GroupCtrl).controller("YesNoModalCtrl", YesNoModalCtrl).factory("alertFactory", function () {
         return new alertFactory();
     }).factory("loginFactory", function ($http, $window, $location, alertFactory) {
         return new loginFactory($http, $window, $location, alertFactory);

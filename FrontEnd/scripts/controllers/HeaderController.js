@@ -49,20 +49,12 @@ var HeaderController = (function (_super) {
         });
     };
 
-    HeaderController.prototype.openEditGroupModal = function (group, newGroup) {
+    HeaderController.prototype.openAddGroupModal = function (group) {
         var _this = this;
-        var mode = 1 /* NewItem */;
-        if (!newGroup) {
-            mode = 2 /* EditItem */;
-        }
-
         var options = {
-            templateUrl: 'views/editGroupModal.html',
-            controller: 'EditGroupCtrl',
+            templateUrl: 'views/addGroupModal.html',
+            controller: 'AddGroupCtrl',
             resolve: {
-                editMode: function () {
-                    return mode;
-                },
                 group: function () {
                     return group;
                 }
@@ -99,7 +91,7 @@ var HeaderController = (function (_super) {
     };
 
     HeaderController.prototype.createGroup = function () {
-        this.openEditGroupModal(this.getEmptyGroup(), true);
+        this.openAddGroupModal(this.getEmptyGroup());
     };
 
     HeaderController.prototype.joinGroup = function () {
